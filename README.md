@@ -1,2 +1,2 @@
 # Image-Inpainter
-A simple GUI tool to inpaint image
+A simple python GUI tool to inpaint image.
