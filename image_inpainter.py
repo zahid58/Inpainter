@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QMainWindow, QLabel, QFileDialog, QFrame, QApplication, QPushButton, QTextEdit
+from PyQt5.QtWidgets import QMainWindow, QLabel, QFileDialog, QFrame, QApplication, QPushButton, QTextEdit, QMessageBox
 from PyQt5 import uic
 from PyQt5.QtCore import Qt
 #from editpage import Editpage
@@ -24,9 +24,20 @@ class Homepage(QMainWindow):
 		self.setWindowFlags(flags)
 		self.setAttribute(Qt.WA_TranslucentBackground)
 		self.show()
+		
+	def mousePressEvent(self, event):
+		self.offset = event.pos()
+
+	def mouseMoveEvent(self, event):
+		x = event.globalX()
+		y = event.globalY()
+		x_w = self.offset.x()
+		y_w = self.offset.y()
+		self.move(x - x_w, y - y_w)
 
 	def add_image(self):
-		#fileName, _ = QFileDialog.getOpenFileName(None, "Open image file...")
+		fileName, _ = QFileDialog.getOpenFileName(None, "Open image file...")
+		print(fileName)
 		#editpage = Editpage(fileName)
 		pass
 
@@ -38,3 +49,16 @@ if __name__ == "__main__":
     homepage.show()
     app.exec()
 		
+
+
+
+'''
+		buttonReply = QMessageBox.question(self, 'test message', "Do you like PyQt5?", QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
+		if buttonReply == QMessageBox.Yes:
+			print("Yes")
+		else:
+			print("No")			
+		#fileName, _ = QFileDialog.getOpenFileName(None, "Open image file...")
+		#editpage = Editpage(fileName)
+
+'''
