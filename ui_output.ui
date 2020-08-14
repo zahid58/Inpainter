@@ -96,7 +96,7 @@ font-family : &quot;Source Serif Pro SemiBold&quot;;
       <property name="frameShadow">
        <enum>QFrame::Raised</enum>
       </property>
-      <widget class="QLabel" name="info_label">
+      <widget class="QLabel" name="text_label">
        <property name="geometry">
         <rect>
          <x>10</x>
@@ -136,10 +136,10 @@ font-size: 18px;
 </string>
        </property>
        <property name="text">
-        <string>!Tip :  Mark the area you like to inpaint.</string>
+        <string>  Algorithm: Navier Stokes,    Time: 1.5 seconds</string>
        </property>
       </widget>
-      <widget class="QPushButton" name="add_image_button">
+      <widget class="QPushButton" name="save_button">
        <property name="geometry">
         <rect>
          <x>890</x>
@@ -177,10 +177,10 @@ background-color:rgba(85, 170, 255, 55)
 </string>
        </property>
        <property name="text">
-        <string>next &gt;</string>
+        <string>save &gt;</string>
        </property>
       </widget>
-      <widget class="QGraphicsView" name="image_view">
+      <widget class="QGraphicsView" name="output_view">
        <property name="geometry">
         <rect>
          <x>10</x>
@@ -197,8 +197,8 @@ background-color:rgba(85, 170, 255, 55)
        </property>
        <property name="minimumSize">
         <size>
-         <width>598</width>
-         <height>478</height>
+         <width>760</width>
+         <height>480</height>
         </size>
        </property>
        <property name="maximumSize">
@@ -251,90 +251,6 @@ border-radius: 10;</string>
        <property name="frameShadow">
         <enum>QFrame::Raised</enum>
        </property>
-       <widget class="QPushButton" name="pen_button">
-        <property name="geometry">
-         <rect>
-          <x>430</x>
-          <y>0</y>
-          <width>51</width>
-          <height>51</height>
-         </rect>
-        </property>
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>15</width>
-          <height>15</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>60</width>
-          <height>60</height>
-         </size>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">QPushButton{
-border-image: url(:/icons/icons/brush_icon.png) 1 1 1 1;
-border-radius: 10px;
-background-color:rgb(60, 60, 182);
-}
-QPushButton:hover{
-background-color:rgb(85, 85, 255)
-
-}
-QPushButton:pressed{
-}
-</string>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-       </widget>
-       <widget class="QPushButton" name="eraser_button">
-        <property name="geometry">
-         <rect>
-          <x>490</x>
-          <y>0</y>
-          <width>51</width>
-          <height>51</height>
-         </rect>
-        </property>
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>60</width>
-          <height>60</height>
-         </size>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">QPushButton{
-border-image: url(:/icons/icons/eraser_icon.png) 1 1 1 1;
-border-radius: 10px;
-background-color:rgb(60, 60, 182);
-}
-QPushButton:hover{
-background-color:rgb(85, 85, 255)
-}
-QPushButton:pressed{
-
-}
-</string>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-       </widget>
        <widget class="QPushButton" name="back_button">
         <property name="geometry">
          <rect>
@@ -386,6 +302,103 @@ background-color:rgba(85, 170, 255, 55)
         </property>
         <property name="text">
          <string>&lt; back</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="help_button">
+        <property name="geometry">
+         <rect>
+          <x>820</x>
+          <y>0</y>
+          <width>51</width>
+          <height>51</height>
+         </rect>
+        </property>
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>15</width>
+          <height>15</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>60</width>
+          <height>60</height>
+         </size>
+        </property>
+        <property name="font">
+         <font>
+          <family>Source Serif Pro SemiBold</family>
+          <pointsize>36</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QPushButton{
+color: rgb(190, 245, 255);
+border-radius: 10px;
+background-color:rgba(60, 60, 182,255);
+}
+QPushButton:hover{
+background-color:rgba(60, 60, 182,150);
+
+}
+QPushButton:pressed{
+background-color:rgb(60, 60, 182,75);
+}
+</string>
+        </property>
+        <property name="text">
+         <string>?</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="title_label">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>700</width>
+          <height>56</height>
+         </rect>
+        </property>
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>700</width>
+          <height>21</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>700</width>
+          <height>56</height>
+         </size>
+        </property>
+        <property name="font">
+         <font>
+          <family>Source Serif Pro SemiBold</family>
+          <pointsize>-1</pointsize>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: none;
+color: rgb(205, 246, 255);
+font-size: 24px;
+</string>
+        </property>
+        <property name="text">
+         <string> Inpainted Image</string>
         </property>
        </widget>
       </widget>
