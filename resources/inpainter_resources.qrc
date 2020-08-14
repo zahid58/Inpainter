@@ -1,0 +1,12 @@
+<RCC>
+  <qresource prefix="add_image_icon">
+    <file>icons/add_image_colored.png</file>
+  </qresource>
+  <qresource prefix="icons">
+    <file>icons/brush_icon.png</file>
+    <file>icons/eraser_icon.png</file>
+  </qresource>
+  <qresource prefix="images">
+    <file>images/image_inapainting_example.png</file>
+  </qresource>
+</RCC>
