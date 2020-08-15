@@ -126,20 +126,20 @@ font-family : &quot;Source Serif Pro SemiBold&quot;;
        <property name="font">
         <font>
          <family>Source Serif Pro SemiBold</family>
-         <pointsize>-1</pointsize>
+         <pointsize>14</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
         </font>
        </property>
        <property name="styleSheet">
         <string notr="true">background-color: none;
-color: rgb(205, 246, 255);
-font-size: 18px;
-</string>
+color: rgb(205, 246, 255);</string>
        </property>
        <property name="text">
         <string>!Tip :  Mark the area you like to inpaint.</string>
        </property>
       </widget>
-      <widget class="QPushButton" name="add_image_button">
+      <widget class="QPushButton" name="next_button">
        <property name="geometry">
         <rect>
          <x>890</x>
@@ -214,6 +214,9 @@ border-radius: 10;</string>
        <property name="frameShape">
         <enum>QFrame::NoFrame</enum>
        </property>
+       <property name="renderHints">
+        <set>QPainter::Antialiasing|QPainter::TextAntialiasing</set>
+       </property>
       </widget>
       <widget class="QFrame" name="title_bar">
        <property name="geometry">
@@ -280,15 +283,12 @@ border-radius: 10;</string>
         </property>
         <property name="styleSheet">
          <string notr="true">QPushButton{
-border-image: url(:/icons/icons/brush_icon.png) 1 1 1 1;
+border-image: url(:/icons/brush_icon.png) 1 1 1 1;
 border-radius: 10px;
 background-color:rgb(60, 60, 182);
 }
-QPushButton:hover{
-background-color:rgb(85, 85, 255)
-
-}
-QPushButton:pressed{
+QPushButton[selected=true]{
+background-color:rgb(85, 85, 255);
 }
 </string>
         </property>
@@ -319,16 +319,14 @@ QPushButton:pressed{
         </property>
         <property name="styleSheet">
          <string notr="true">QPushButton{
-border-image: url(:/icons/icons/eraser_icon.png) 1 1 1 1;
+border-image: url(:/icons/eraser_icon.png) 1 1 1 1;
 border-radius: 10px;
 background-color:rgb(60, 60, 182);
 }
-QPushButton:hover{
-background-color:rgb(85, 85, 255)
+QPushButton[selected=true]{
+background-color:rgb(85, 85, 255);
 }
-QPushButton:pressed{
 
-}
 </string>
         </property>
         <property name="text">
