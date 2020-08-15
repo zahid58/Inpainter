@@ -14,7 +14,7 @@
    </rect>
   </property>
   <property name="sizePolicy">
-   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+   <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
     <horstretch>0</horstretch>
     <verstretch>0</verstretch>
    </sizepolicy>
@@ -27,8 +27,8 @@
   </property>
   <property name="maximumSize">
    <size>
-    <width>1007</width>
-    <height>740</height>
+    <width>1920</width>
+    <height>1080</height>
    </size>
   </property>
   <property name="focusPolicy">
@@ -44,37 +44,16 @@
      <verstretch>0</verstretch>
     </sizepolicy>
    </property>
-   <layout class="QVBoxLayout" name="main_layout" stretch="0">
-    <property name="spacing">
-     <number>0</number>
-    </property>
-    <property name="leftMargin">
-     <number>10</number>
-    </property>
-    <property name="topMargin">
-     <number>10</number>
-    </property>
-    <property name="rightMargin">
-     <number>10</number>
-    </property>
-    <property name="bottomMargin">
-     <number>10</number>
-    </property>
-    <item>
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="0" column="0">
      <widget class="QFrame" name="main_frame">
       <property name="sizePolicy">
-       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
         <horstretch>0</horstretch>
         <verstretch>0</verstretch>
        </sizepolicy>
       </property>
       <property name="minimumSize">
-       <size>
-        <width>987</width>
-        <height>720</height>
-       </size>
-      </property>
-      <property name="maximumSize">
        <size>
         <width>987</width>
         <height>720</height>
@@ -96,229 +75,29 @@ font-family : &quot;Source Serif Pro SemiBold&quot;;
       <property name="frameShadow">
        <enum>QFrame::Raised</enum>
       </property>
-      <widget class="QLabel" name="info_label">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>650</y>
-         <width>801</width>
-         <height>56</height>
-        </rect>
-       </property>
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="minimumSize">
-        <size>
-         <width>801</width>
-         <height>21</height>
-        </size>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>801</width>
-         <height>56</height>
-        </size>
-       </property>
-       <property name="font">
-        <font>
-         <family>Source Serif Pro SemiBold</family>
-         <pointsize>14</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">background-color: none;
-color: rgb(205, 246, 255);</string>
-       </property>
-       <property name="text">
-        <string>!Tip :  Mark the area you like to inpaint.</string>
-       </property>
-      </widget>
-      <widget class="QPushButton" name="next_button">
-       <property name="geometry">
-        <rect>
-         <x>890</x>
-         <y>650</y>
-         <width>91</width>
-         <height>51</height>
-        </rect>
-       </property>
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="font">
-        <font>
-         <family>Source Serif Pro SemiBold</family>
-         <pointsize>18</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">QPushButton{
-border-radius: 10px;
-color: rgb(205, 238, 255);
-background-color: rgb(85, 170, 255)
-}
-QPushButton:hover{
-background-color:rgba(85, 170, 255, 155)
-}
-QPushButton:pressed{
-background-color:rgba(85, 170, 255, 55)
-}
-</string>
-       </property>
-       <property name="text">
-        <string>next &gt;</string>
-       </property>
-      </widget>
-      <widget class="QGraphicsView" name="image_view">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>70</y>
-         <width>971</width>
-         <height>571</height>
-        </rect>
-       </property>
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="minimumSize">
-        <size>
-         <width>598</width>
-         <height>478</height>
-        </size>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>1280</width>
-         <height>720</height>
-        </size>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">background-color: rgb(229, 229, 229);
-border-radius: 10;</string>
-       </property>
-       <property name="frameShape">
-        <enum>QFrame::NoFrame</enum>
-       </property>
-       <property name="renderHints">
-        <set>QPainter::Antialiasing|QPainter::TextAntialiasing</set>
-       </property>
-      </widget>
-      <widget class="QFrame" name="title_bar">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>10</y>
-         <width>971</width>
-         <height>61</height>
-        </rect>
-       </property>
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="minimumSize">
-        <size>
-         <width>971</width>
-         <height>61</height>
-        </size>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>971</width>
-         <height>61</height>
-        </size>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">background-color: none;</string>
-       </property>
-       <property name="frameShape">
-        <enum>QFrame::StyledPanel</enum>
-       </property>
-       <property name="frameShadow">
-        <enum>QFrame::Raised</enum>
-       </property>
-       <widget class="QPushButton" name="pen_button">
-        <property name="geometry">
-         <rect>
-          <x>430</x>
-          <y>0</y>
-          <width>51</width>
-          <height>51</height>
-         </rect>
-        </property>
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>15</width>
-          <height>15</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>60</width>
-          <height>60</height>
-         </size>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">QPushButton{
-border-image: url(:/icons/brush_icon.png) 1 1 1 1;
-border-radius: 10px;
-background-color:rgb(60, 60, 182);
-}
-QPushButton[selected=true]{
-background-color:rgb(85, 85, 255);
-}
-</string>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-       </widget>
-       <widget class="QPushButton" name="eraser_button">
-        <property name="geometry">
-         <rect>
-          <x>490</x>
-          <y>0</y>
-          <width>51</width>
-          <height>51</height>
-         </rect>
-        </property>
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>60</width>
-          <height>60</height>
-         </size>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">QPushButton{
+      <layout class="QGridLayout" name="gridLayout_2">
+       <item row="0" column="2">
+        <widget class="QPushButton" name="eraser_button">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>50</width>
+           <height>50</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>50</width>
+           <height>50</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton{
 border-image: url(:/icons/eraser_icon.png) 1 1 1 1;
 border-radius: 10px;
 background-color:rgb(60, 60, 182);
@@ -328,48 +107,45 @@ background-color:rgb(85, 85, 255);
 }
 
 </string>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-       </widget>
-       <widget class="QPushButton" name="back_button">
-        <property name="geometry">
-         <rect>
-          <x>880</x>
-          <y>0</y>
-          <width>91</width>
-          <height>51</height>
-         </rect>
-        </property>
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>91</width>
-          <height>51</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>91</width>
-          <height>51</height>
-         </size>
-        </property>
-        <property name="font">
-         <font>
-          <family>Source Serif Pro SemiBold</family>
-          <pointsize>18</pointsize>
-          <weight>75</weight>
-          <bold>true</bold>
-         </font>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">QPushButton{
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="9">
+        <widget class="QPushButton" name="back_button">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>91</width>
+           <height>51</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>91</width>
+           <height>51</height>
+          </size>
+         </property>
+         <property name="font">
+          <font>
+           <family>Source Serif Pro SemiBold</family>
+           <pointsize>18</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="layoutDirection">
+          <enum>Qt::RightToLeft</enum>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton{
 border-radius: 10px;
 color: rgb(205, 238, 255);
 background-color: rgb(85, 170, 255)
@@ -381,12 +157,158 @@ QPushButton:pressed{
 background-color:rgba(85, 170, 255, 55)
 }
 </string>
-        </property>
-        <property name="text">
-         <string>&lt; back</string>
-        </property>
-       </widget>
-      </widget>
+         </property>
+         <property name="text">
+          <string>&lt; back</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0" colspan="10">
+        <widget class="QFrame" name="view_frame">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>969</width>
+           <height>573</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: yellow;</string>
+         </property>
+         <property name="frameShape">
+          <enum>QFrame::NoFrame</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QPushButton" name="pen_button">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>50</width>
+           <height>50</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>50</width>
+           <height>50</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton{
+border-image: url(:/icons/brush_icon.png) 1 1 1 1;
+border-radius: 10px;
+background-color:rgb(60, 60, 182);
+}
+QPushButton[selected=true]{
+background-color:rgb(85, 85, 255);
+}
+</string>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="9">
+        <widget class="QPushButton" name="next_button">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>91</width>
+           <height>51</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>91</width>
+           <height>51</height>
+          </size>
+         </property>
+         <property name="font">
+          <font>
+           <family>Source Serif Pro SemiBold</family>
+           <pointsize>18</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton{
+border-radius: 10px;
+color: rgb(205, 238, 255);
+background-color: rgb(85, 170, 255)
+}
+QPushButton:hover{
+background-color:rgba(85, 170, 255, 155)
+}
+QPushButton:pressed{
+background-color:rgba(85, 170, 255, 55)
+}
+</string>
+         </property>
+         <property name="text">
+          <string>next &gt;</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0">
+        <widget class="QLabel" name="info_label">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>801</width>
+           <height>21</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>801</width>
+           <height>56</height>
+          </size>
+         </property>
+         <property name="font">
+          <font>
+           <family>Source Serif Pro SemiBold</family>
+           <pointsize>14</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: none;
+color: rgb(205, 246, 255);</string>
+         </property>
+         <property name="text">
+          <string>  !Tip :  Mark the area you want to inpaint.</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </widget>
     </item>
    </layout>
