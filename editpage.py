@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QSizePolicy, QMainWindow, QLabel, QGridLayout, QGraphicsScene, QFileDialog, QFrame, QApplication, QPushButton, QTextEdit, QMessageBox, QGraphicsView
+from PyQt5.QtWidgets import QSizePolicy, QVBoxLayout, QMainWindow, QLabel, QGridLayout, QGraphicsScene, QFileDialog, QFrame, QApplication, QPushButton, QTextEdit, QMessageBox, QGraphicsView
 from PyQt5 import uic
 from PyQt5.QtCore import QRectF
 from PyQt5.QtGui import QPixmap, QImage, QPainterPath
@@ -20,6 +20,7 @@ class Editpage(QMainWindow):
 		self.eraserButton = self.findChild(QPushButton, "eraser_button")
 		self.backButton = self.findChild(QPushButton, "back_button")
 		self.nextButton = self.findChild(QPushButton, "next_button")
+		self.minButton = self.findChild(QPushButton, "min_button")
 		self.titleBar = self.findChild(QFrame, "title_bar")
 		self.infoLabel = self.findChild(QLabel, "info_label")
 		self.mainFrame = self.findChild(QFrame, "main_frame")
@@ -33,19 +34,24 @@ class Editpage(QMainWindow):
 		self.penButton.clicked.connect(self.penSelect)
 		self.eraserButton.clicked.connect(self.eraserSelect)
 		self.backButton.clicked.connect(self.goBack)
+		self.minButton.clicked.connect(self.showMinimized)
 		self.nextButton.clicked.connect(self.processImage)
 
-		#flags = Qt.WindowFlags(Qt.FramelessWindowHint|Qt.WindowStaysOnTopHint)
-		#self.setWindowFlags(flags)
-		#self.setAttribute(Qt.WA_TranslucentBackground)
+		flags = Qt.WindowFlags(Qt.FramelessWindowHint|Qt.WindowStaysOnTopHint)
+		self.setWindowFlags(flags)
+		self.setAttribute(Qt.WA_TranslucentBackground)
 
 		self.scene = QGraphicsScene()
 		self.imageView = QtImageViewer(self.scene, self.viewFrame)
 		self.image = QImage(self.image_path)
 		self.imageView.setImage(self.image)
-		# have to insert a layout to follow viewFrame's size
 		self.imageView.setSizePolicy(QSizePolicy(QSizePolicy.Expanding,QSizePolicy.Expanding))
 		self.imageView.setGeometry(0,0,self.viewFrame.width(),self.viewFrame.height())
+		# the layout makes sure picture expands with the frame
+		vbox = QVBoxLayout()
+		vbox.addWidget(self.imageView)
+		self.viewFrame.setLayout(vbox)
+
 
 
 
