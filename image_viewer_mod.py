@@ -3,8 +3,8 @@
 
 import os.path
 try:
-    from PyQt5.QtCore import Qt, QRectF, pyqtSignal, QT_VERSION_STR
-    from PyQt5.QtGui import QImage, QPixmap, QPainterPath
+    from PyQt5.QtCore import Qt, QRectF, pyqtSignal, QT_VERSION_STR, QPoint
+    from PyQt5.QtGui import QImage, QPixmap, QPainterPath, QPen, QPainter
     from PyQt5.QtWidgets import QGraphicsView, QGraphicsScene, QFileDialog
 except ImportError:
     try:
@@ -68,7 +68,13 @@ class QtImageViewer(QGraphicsView):
 
         # Flags for enabling/disabling mouse interaction.
         self.canZoom = True
-        self.canPan = True
+        self.canPan = False
+        self.drawing = False
+        self.brushSize = 2
+        self.brushColor = Qt.red
+        self.lastPoint = QPoint()
+        #self.paintingPixmap
+        
 
     def hasImage(self):
         """ Returns whether or not the scene contains an image pixmap.
@@ -112,7 +118,6 @@ class QtImageViewer(QGraphicsView):
         if self.hasImage():
             self._pixmapHandle.setPixmap(pixmap)
         else:
-            print(type(self.scene), self.scene)
             self._pixmapHandle = self.scene.addPixmap(pixmap)
         self.setSceneRect(QRectF(pixmap.rect()))  # Set scene size to image size.
         self.updateViewer()
@@ -147,13 +152,29 @@ class QtImageViewer(QGraphicsView):
         """
         self.updateViewer()
 
+    def mouseMoveEvent(self, event):
+        if(event.buttons() and Qt.LeftButton) and self.drawing:
+            pixmap = self.pixmap()    
+            painter = QPainter(pixmap)
+            painter.setRenderHint(QPainter.Antialiasing, True)
+            painter.setPen(QPen(self.brushColor, self.brushSize, Qt.SolidLine, Qt.RoundCap, Qt.RoundJoin))
+            painter.drawLine(self.lastPoint, self.mapToScene(event.pos()))
+            painter.end()
+            self.lastPoint = self.mapToScene(event.pos())
+            self._pixmapHandle.setPixmap(pixmap)
+            self.update()
+
+
+
     def mousePressEvent(self, event):
         """ Start mouse pan or zoom mode.
         """
-        scenePos = self.mapToScene(event.pos())
         if event.button() == Qt.LeftButton:
-            if self.canPan:
-                self.setDragMode(QGraphicsView.ScrollHandDrag)
+            # if self.canPan:
+            #     self.setDragMode(QGraphicsView.ScrollHandDrag)
+                self.drawing = True
+                self.lastPoint = self.mapToScene(event.pos())
+                #print(self.lastPoint)
             # self.leftMouseButtonPressed.emit(scenePos.x(), scenePos.y())
         elif event.button() == Qt.RightButton:
             if self.canZoom:
@@ -165,9 +186,10 @@ class QtImageViewer(QGraphicsView):
         """ Stop mouse pan or zoom mode (apply zoom if valid).
         """
         QGraphicsView.mouseReleaseEvent(self, event)
-        scenePos = self.mapToScene(event.pos())
+        #scenePos = self.mapToScene(event.pos())
         if event.button() == Qt.LeftButton:
             self.setDragMode(QGraphicsView.NoDrag)
+            self.drawing = False
             # self.leftMouseButtonReleased.emit(scenePos.x(), scenePos.y())
         elif event.button() == Qt.RightButton:
             if self.canZoom:

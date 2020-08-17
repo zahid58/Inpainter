@@ -1,8 +1,8 @@
 from PyQt5.QtWidgets import QSizePolicy, QVBoxLayout, QMainWindow, QLabel, QGridLayout, QGraphicsScene, QFileDialog, QFrame, QApplication, QPushButton, QTextEdit, QMessageBox, QGraphicsView
 from PyQt5 import uic
 from PyQt5.QtCore import QRectF
-from PyQt5.QtGui import QPixmap, QImage, QPainterPath
-from PyQt5.QtCore import Qt
+from PyQt5.QtGui import QPixmap, QImage, QPainterPath, QPainter, QBrush, QPen
+from PyQt5.QtCore import Qt, QPoint
 import sys
 import resources
 from image_viewer_mod import QtImageViewer
@@ -21,6 +21,7 @@ class Editpage(QMainWindow):
 		self.backButton = self.findChild(QPushButton, "back_button")
 		self.nextButton = self.findChild(QPushButton, "next_button")
 		self.minButton = self.findChild(QPushButton, "min_button")
+		self.maxButton = self.findChild(QPushButton, "max_button")
 		self.titleBar = self.findChild(QFrame, "title_bar")
 		self.infoLabel = self.findChild(QLabel, "info_label")
 		self.mainFrame = self.findChild(QFrame, "main_frame")
@@ -35,6 +36,7 @@ class Editpage(QMainWindow):
 		self.eraserButton.clicked.connect(self.eraserSelect)
 		self.backButton.clicked.connect(self.goBack)
 		self.minButton.clicked.connect(self.showMinimized)
+		self.maxButton.clicked.connect(self.showMaximized)
 		self.nextButton.clicked.connect(self.processImage)
 
 		flags = Qt.WindowFlags(Qt.FramelessWindowHint|Qt.WindowStaysOnTopHint)
@@ -51,8 +53,6 @@ class Editpage(QMainWindow):
 		vbox = QVBoxLayout()
 		vbox.addWidget(self.imageView)
 		self.viewFrame.setLayout(vbox)
-
-
 
 
 

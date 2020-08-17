@@ -47,9 +47,9 @@ class Homepage(QMainWindow):
 		print(image_path)
 		self.editpage = Editpage(self, image_path)
 		self.hide()
-		#self.editpage.show()
+		self.editpage.show()
 		#self.editpage.showFullScreen()
-		self.editpage.showMaximized()
+		#self.editpage.showMaximized()
 		
 
 	
