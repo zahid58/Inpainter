@@ -67,13 +67,8 @@ class QtImageViewer(QGraphicsView):
         self.zoomStack = []
 
         # Flags for enabling/disabling mouse interaction.
-        
-        self.zoomMode = False
-        self.drawMode = True
-        
         self.canZoom = True
-        self.canPan = True
-        
+        self.canPan = False
         self.drawing = False
         self.brushSize = 2
         self.brushColor = Qt.red
@@ -158,87 +153,68 @@ class QtImageViewer(QGraphicsView):
         self.updateViewer()
 
     def mouseMoveEvent(self, event):
-        if self.drawMode:
-            print('mouse moving in drawMode')
-            if(event.buttons() and Qt.LeftButton) and self.drawing:
-                pixmap = self.pixmap()    
-                painter = QPainter(pixmap)
-                painter.setRenderHint(QPainter.Antialiasing, True)
-                painter.setPen(QPen(self.brushColor, self.brushSize, Qt.SolidLine, Qt.RoundCap, Qt.RoundJoin))
-                painter.drawLine(self.lastPoint, self.mapToScene(event.pos()))
-                painter.end()
-                self.lastPoint = self.mapToScene(event.pos())
-                self._pixmapHandle.setPixmap(pixmap)
-                self.update()
-        if self.zoomMode:
-            pass
+        if(event.buttons() and Qt.LeftButton) and self.drawing:
+            pixmap = self.pixmap()    
+            painter = QPainter(pixmap)
+            painter.setRenderHint(QPainter.Antialiasing, True)
+            painter.setPen(QPen(self.brushColor, self.brushSize, Qt.SolidLine, Qt.RoundCap, Qt.RoundJoin))
+            painter.drawLine(self.lastPoint, self.mapToScene(event.pos()))
+            painter.end()
+            self.lastPoint = self.mapToScene(event.pos())
+            self._pixmapHandle.setPixmap(pixmap)
+            self.update()
+
 
 
     def mousePressEvent(self, event):
         """ Start mouse pan or zoom mode.
         """
-        if self.zoomMode:
-            print('zoomMode true, mousePressEvent')
-            if event.button() == Qt.LeftButton:
-                if self.canPan:
-                    self.setDragMode(QGraphicsView.ScrollHandDrag)
-                # self.leftMouseButtonPressed.emit(scenePos.x(), scenePos.y())
-            elif event.button() == Qt.RightButton:
-                if self.canZoom:
-                    print('rubberband activated')
-                    self.setDragMode(QGraphicsView.RubberBandDrag)
-                #self.rightMouseButtonPressed.emit(scenePos.x(), scenePos.y())
-            QGraphicsView.mousePressEvent(self, event)
-        if self.drawMode:
-            print('in drawMode')
-            if event.button() == Qt.LeftButton:            
+        if event.button() == Qt.LeftButton:
+            # if self.canPan:
+            #     self.setDragMode(QGraphicsView.ScrollHandDrag)
                 self.drawing = True
                 self.lastPoint = self.mapToScene(event.pos())
                 #print(self.lastPoint)
-        
+            # self.leftMouseButtonPressed.emit(scenePos.x(), scenePos.y())
+        elif event.button() == Qt.RightButton:
+            if self.canZoom:
+                self.setDragMode(QGraphicsView.RubberBandDrag)
+        #     self.rightMouseButtonPressed.emit(scenePos.x(), scenePos.y())
+        QGraphicsView.mousePressEvent(self, event)
 
     def mouseReleaseEvent(self, event):
         """ Stop mouse pan or zoom mode (apply zoom if valid).
         """
-        if self.zoomMode:
-            QGraphicsView.mouseReleaseEvent(self, event)
-            #scenePos = self.mapToScene(event.pos())
-            if event.button() == Qt.LeftButton:
-                self.setDragMode(QGraphicsView.NoDrag)
-                # self.leftMouseButtonReleased.emit(scenePos.x(), scenePos.y())
-            elif event.button() == Qt.RightButton:
-                if self.zoomMode:
-                    if self.canZoom:
-                        viewBBox = self.zoomStack[-1] if len(self.zoomStack) else self.sceneRect()
-                        selectionBBox = self.scene.selectionArea().boundingRect().intersected(viewBBox)
-                        self.scene.setSelectionArea(QPainterPath())  # Clear current selection area.
-                        if selectionBBox.isValid() and (selectionBBox != viewBBox):
-                            self.zoomStack.append(selectionBBox)
-                            self.updateViewer()
-                    self.setDragMode(QGraphicsView.NoDrag)
-                # self.rightMouseButtonReleased.emit(scenePos.x(), scenePos.y())
-
-        if self.drawMode:
-            if event.button() == Qt.LeftButton:
-                self.drawing = False
-            elif event.button() == Qt.RightButton:
-                pass
-
+        QGraphicsView.mouseReleaseEvent(self, event)
+        #scenePos = self.mapToScene(event.pos())
+        if event.button() == Qt.LeftButton:
+            self.setDragMode(QGraphicsView.NoDrag)
+            self.drawing = False
+            # self.leftMouseButtonReleased.emit(scenePos.x(), scenePos.y())
+        elif event.button() == Qt.RightButton:
+            if self.canZoom:
+                viewBBox = self.zoomStack[-1] if len(self.zoomStack) else self.sceneRect()
+                selectionBBox = self.scene.selectionArea().boundingRect().intersected(viewBBox)
+                self.scene.setSelectionArea(QPainterPath())  # Clear current selection area.
+                if selectionBBox.isValid() and (selectionBBox != viewBBox):
+                    self.zoomStack.append(selectionBBox)
+                    self.updateViewer()
+            self.setDragMode(QGraphicsView.NoDrag)
+            # self.rightMouseButtonReleased.emit(scenePos.x(), scenePos.y())
 
     def mouseDoubleClickEvent(self, event):
         """ Show entire image.
         """
         #scenePos = self.mapToScene(event.pos())
-        if self.zoomMode:
-            if event.button() == Qt.LeftButton:
-                # self.leftMouseButtonDoubleClicked.emit(scenePos.x(), scenePos.y())
-                pass
-            elif event.button() == Qt.RightButton:
-                if self.canZoom:
-                    self.zoomStack = []  # Clear zoom stack.
-                    self.updateViewer()
-                # self.rightMouseButtonDoubleClicked.emit(scenePos.x(), scenePos.y())
-            QGraphicsView.mouseDoubleClickEvent(self, event)
+        if event.button() == Qt.LeftButton:
+            # self.leftMouseButtonDoubleClicked.emit(scenePos.x(), scenePos.y())
+            pass
+        elif event.button() == Qt.RightButton:
+            if self.canZoom:
+                self.zoomStack = []  # Clear zoom stack.
+                self.updateViewer()
+            # self.rightMouseButtonDoubleClicked.emit(scenePos.x(), scenePos.y())
+        QGraphicsView.mouseDoubleClickEvent(self, event)
 
 
 if __name__ == '__main__':

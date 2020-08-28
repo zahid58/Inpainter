@@ -61,12 +61,22 @@ class Editpage(QMainWindow):
 		self.penButton.setStyle(self.penButton.style())
 		self.eraserButton.setProperty('selected',False)
 		self.eraserButton.setStyle(self.penButton.style())
+		
+		self.imageView.drawing = False
+		self.imageView.drawMode = True
+		self.imageView.zoomMode = False
+
 
 	def eraserSelect(self):
 		self.penButton.setProperty('selected',False)
 		self.penButton.setStyle(self.penButton.style())
 		self.eraserButton.setProperty('selected',True)
 		self.eraserButton.setStyle(self.penButton.style())
+
+		print('zomm mode open')
+		self.imageView.drawing = False
+		self.imageView.drawMode = False
+		self.imageView.zoomMode = True
 
 
 	def goBack(self):
