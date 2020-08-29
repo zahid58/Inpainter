@@ -21,7 +21,7 @@ class Editor(QtWidgets.QGraphicsView):
         self.setSizePolicy(QSizePolicy(QSizePolicy.Expanding,QSizePolicy.Expanding)) 
         self.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
         self.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
-        self.setBackgroundBrush(QtGui.QBrush(QtGui.QColor(30, 30, 30)))
+        #self.setBackgroundBrush(QtGui.QBrush(QtGui.QColor(30, 30, 30)))
         self.setFrameShape(QtWidgets.QFrame.NoFrame)
 
         self.drawMode = True
@@ -35,19 +35,18 @@ class Editor(QtWidgets.QGraphicsView):
 
     def fitInView(self, scale=True):
         rect = QtCore.QRectF(self._photo.pixmap().rect())
-        print(rect.getCoords())
         if not rect.isNull():
             self.setSceneRect(rect)
             if self.hasPhoto():
                 unity = self.transform().mapRect(QtCore.QRectF(0, 0, 1, 1))
                 self.scale(1 / unity.width(), 1 / unity.height())
                 viewrect = self.viewport().rect()
-                print(rect.getCoords())
+                #print("viewrect:",viewrect.getCoords())
                 scenerect = self.transform().mapRect(rect)
-                print(rect.getCoords())
+                #print("scenerect:",scenerect.getCoords())
                 factor = min(viewrect.width() / scenerect.width(),
                              viewrect.height() / scenerect.height())
-                print(factor)
+                #print(factor)
                 self.scale(factor, factor)
             self._zoom = 0
 
@@ -61,7 +60,6 @@ class Editor(QtWidgets.QGraphicsView):
             self._empty = True
             self.setDragMode(QtWidgets.QGraphicsView.NoDrag)
             self._photo.setPixmap(QtGui.QPixmap()) 
-        self.setSceneRect(QRectF(self._photo.pixmap.rect()))  
         self.fitInView()
 
     def wheelEvent(self, event):
@@ -78,7 +76,6 @@ class Editor(QtWidgets.QGraphicsView):
                 self.fitInView()
             else:
                 self._zoom = 0
-        print(self._zoom)
         super(Editor, self).wheelEvent(event)            
     
     def mouseMoveEvent(self, event):

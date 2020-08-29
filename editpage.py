@@ -49,11 +49,12 @@ class Editpage(QMainWindow):
 		self.imageView.setSizePolicy(QSizePolicy(QSizePolicy.Expanding,QSizePolicy.Expanding))
 		print(self.viewFrame.width(), self.viewFrame.height())
 		self.imageView.setGeometry(0,0,self.viewFrame.width(),self.viewFrame.height())
+		self.imageView.viewport().setFixedSize(self.viewFrame.width(),self.viewFrame.height())
 		
 		
-		#self.imageView.setPhoto(QPixmap(self.image_path))
+		self.imageView.setPhoto(QPixmap(self.image_path))
 
-		# the layout makes sure picture expands with the frame
+		# the layout makes sure imageview expands with the frame
 		vbox = QVBoxLayout()
 		vbox.addWidget(self.imageView)
 		self.viewFrame.setLayout(vbox)
