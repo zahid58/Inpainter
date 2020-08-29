@@ -1,20 +1,24 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtWidgets import QGraphicsView, QGraphicsScene, QFileDialog
+from PyQt5.QtWidgets import QSizePolicy, QGraphicsView, QGraphicsScene, QFileDialog
 from PyQt5.QtCore import Qt, QRectF, pyqtSignal, QT_VERSION_STR, QPoint
 from PyQt5.QtGui import QImage, QPixmap, QPainterPath, QPen, QPainter
 
 class Editor(QtWidgets.QGraphicsView):
 
-    def __init__(self, parent):
+    def __init__(self, scene = None, parent = None):
         super(Editor, self).__init__(parent)
         self._zoom = 0
         self._empty = True
-        self._scene = QtWidgets.QGraphicsScene(self)
+        if scene is not None:
+            self._scene = scene
+        else:
+            self._scene = QtWidgets.QGraphicsScene(self)
         self._photo = QtWidgets.QGraphicsPixmapItem()
         self._scene.addItem(self._photo)
         self.setScene(self._scene)
         self.setTransformationAnchor(QtWidgets.QGraphicsView.AnchorUnderMouse)
         self.setResizeAnchor(QtWidgets.QGraphicsView.AnchorUnderMouse)
+        self.setSizePolicy(QSizePolicy(QSizePolicy.Expanding,QSizePolicy.Expanding)) 
         self.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
         self.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
         self.setBackgroundBrush(QtGui.QBrush(QtGui.QColor(30, 30, 30)))
@@ -31,15 +35,19 @@ class Editor(QtWidgets.QGraphicsView):
 
     def fitInView(self, scale=True):
         rect = QtCore.QRectF(self._photo.pixmap().rect())
+        print(rect.getCoords())
         if not rect.isNull():
             self.setSceneRect(rect)
             if self.hasPhoto():
                 unity = self.transform().mapRect(QtCore.QRectF(0, 0, 1, 1))
                 self.scale(1 / unity.width(), 1 / unity.height())
                 viewrect = self.viewport().rect()
+                print(rect.getCoords())
                 scenerect = self.transform().mapRect(rect)
+                print(rect.getCoords())
                 factor = min(viewrect.width() / scenerect.width(),
                              viewrect.height() / scenerect.height())
+                print(factor)
                 self.scale(factor, factor)
             self._zoom = 0
 
@@ -52,7 +60,8 @@ class Editor(QtWidgets.QGraphicsView):
         else:
             self._empty = True
             self.setDragMode(QtWidgets.QGraphicsView.NoDrag)
-            self._photo.setPixmap(QtGui.QPixmap())
+            self._photo.setPixmap(QtGui.QPixmap()) 
+        self.setSceneRect(QRectF(self._photo.pixmap.rect()))  
         self.fitInView()
 
     def wheelEvent(self, event):
@@ -69,6 +78,7 @@ class Editor(QtWidgets.QGraphicsView):
                 self.fitInView()
             else:
                 self._zoom = 0
+        print(self._zoom)
         super(Editor, self).wheelEvent(event)            
     
     def mouseMoveEvent(self, event):

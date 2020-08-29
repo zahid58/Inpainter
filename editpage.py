@@ -5,7 +5,7 @@ from PyQt5.QtGui import QPixmap, QImage, QPainterPath, QPainter, QBrush, QPen
 from PyQt5.QtCore import Qt, QPoint
 import sys
 import resources
-from image_viewer_mod import QtImageViewer
+from editor import Editor
 
 class Editpage(QMainWindow):
 	def __init__(self, homepage, image_path):
@@ -44,11 +44,15 @@ class Editpage(QMainWindow):
 		self.setAttribute(Qt.WA_TranslucentBackground)
 
 		self.scene = QGraphicsScene()
-		self.imageView = QtImageViewer(self.scene, self.viewFrame)
-		self.image = QImage(self.image_path)
-		self.imageView.setImage(self.image)
+		self.imageView = Editor(self.scene, self.viewFrame)
+		
 		self.imageView.setSizePolicy(QSizePolicy(QSizePolicy.Expanding,QSizePolicy.Expanding))
+		print(self.viewFrame.width(), self.viewFrame.height())
 		self.imageView.setGeometry(0,0,self.viewFrame.width(),self.viewFrame.height())
+		
+		
+		#self.imageView.setPhoto(QPixmap(self.image_path))
+
 		# the layout makes sure picture expands with the frame
 		vbox = QVBoxLayout()
 		vbox.addWidget(self.imageView)
