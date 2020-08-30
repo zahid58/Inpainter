@@ -2,6 +2,9 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QSizePolicy, QGraphicsView, QGraphicsScene, QFileDialog
 from PyQt5.QtCore import Qt, QRectF, pyqtSignal, QT_VERSION_STR, QPoint
 from PyQt5.QtGui import QImage, QPixmap, QPainterPath, QPen, QPainter
+import numpy as np
+import inpainter
+from qimage2ndarray import rgb_view, array2qimage
 
 class Editor(QtWidgets.QGraphicsView):
 
@@ -26,9 +29,13 @@ class Editor(QtWidgets.QGraphicsView):
 
         self.drawMode = True
         self.drawing = False
-        self.brushSize = 4
+        self.brushSize = 10
         self.brushColor = Qt.red
         self.lastPoint = QPoint()
+
+        #mask
+        self._mask = None
+        self._unmarkedImage = None
 
     def hasPhoto(self):
         return not self._empty
@@ -60,7 +67,17 @@ class Editor(QtWidgets.QGraphicsView):
             self._empty = True
             self.setDragMode(QtWidgets.QGraphicsView.NoDrag)
             self._photo.setPixmap(QtGui.QPixmap()) 
+        print(self._photo.pixmap().size())
+        
+        self._mask = QImage(self._photo.pixmap().size(), QImage.Format_RGB32)
+        self._mask.fill(Qt.black)
+        self._unmarkedImage = pixmap.toImage()
+        
         self.fitInView()
+
+    def setMask(self):
+        self._mask = QImage(self._photo.pixmap().size(), QImage.Format_RGB32)
+        self._mask.fill(Qt.black)
 
     def wheelEvent(self, event):
         if self.hasPhoto():
@@ -89,6 +106,15 @@ class Editor(QtWidgets.QGraphicsView):
                 painter.setPen(QPen(self.brushColor, self.brushSize, Qt.SolidLine, Qt.RoundCap, Qt.RoundJoin))
                 painter.drawLine(self.lastPoint, self.mapToScene(event.pos()))
                 painter.end()
+
+                painter = QPainter (self._mask)
+                if not painter.isActive():
+                    painter.begin(self)
+                painter.setRenderHint(QPainter.Antialiasing, False)
+                painter.setPen(QPen(Qt.white, self.brushSize, Qt.SolidLine, Qt.RoundCap, Qt.RoundJoin))
+                painter.drawLine(self.lastPoint, self.mapToScene(event.pos()))
+                painter.end()
+
                 self.lastPoint = self.mapToScene(event.pos())
                 self._photo.setPixmap(pixmap)
 
@@ -108,7 +134,39 @@ class Editor(QtWidgets.QGraphicsView):
 
         super(Editor, self).mouseReleaseEvent(event)    
 
+    def inpaint(self):
+        img = rgb_view(self._unmarkedImage)
+        mask = rgb_view(self._mask)
+        output = array2qimage(inpainter.inpaint(img, mask))
+        output.save("output.png","PNG")
+        self._photo.setPixmap(QPixmap(output))
+        
+        
 
+    def QImageToArray(self, qimage):
+        size = qimage.size()         
+        h = size.width()
+        w = size.height()          
+        byte_str = qimage.bits().tobytes()
+        img = np.frombuffer(byte_str, dtype=np.uint8).reshape((w,h,4))     
+        return img    
+
+    def QPixmapToArray(self, pixmap):
+        size = pixmap.size()         
+        h = size.width()
+        w = size.height()          
+        qimg = pixmap.toImage()       
+        byte_str = qimg.bits().tobytes()
+        img = np.frombuffer(byte_str, dtype=np.uint8).reshape((w,h,4))     
+        return img
+
+    def ArrayToQPixmap(self, img):
+        h,w = img.shape
+        return QPixmap(QImage(img.data, h, w, 3*h, QImage.Format_RGB888))  
+
+    def ArrayToQImage(self, img):
+        h,w = img.shape
+        return QImage(img.data, h, w, 3*h, QImage.Format_RGB888)       
 
 class Window(QtWidgets.QWidget):
     def __init__(self):

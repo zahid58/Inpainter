@@ -15,6 +15,7 @@ class Editpage(QMainWindow):
 		self.setupUi()
 		
 	def setupUi(self):	
+
 		uic.loadUi("ui_edit.ui", self)
 		self.penButton = self.findChild(QPushButton, "pen_button")
 		self.eraserButton = self.findChild(QPushButton, "eraser_button")
@@ -90,8 +91,7 @@ class Editpage(QMainWindow):
 		
 
 	def processImage(self):
-		pass
-
+		self.imageView.inpaint()
 
 
 

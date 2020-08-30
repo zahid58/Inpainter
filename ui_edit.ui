@@ -343,7 +343,7 @@ background-color:rgba(85, 170, 255, 55)
 </string>
          </property>
          <property name="text">
-          <string>next &gt;</string>
+          <string>inpaint</string>
          </property>
         </widget>
        </item>
