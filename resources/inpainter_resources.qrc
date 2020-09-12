@@ -1,5 +1,8 @@
 <RCC>
   <qresource prefix="icons">
+    <file>done_icon.png</file>
+    <file>reset_icon.png</file>
+    <file>save_icon.png</file>
     <file>add_image_colored.png</file>
     <file>brush_icon.png</file>
     <file>eraser_icon.png</file>

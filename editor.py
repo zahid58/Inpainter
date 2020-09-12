@@ -67,7 +67,7 @@ class Editor(QtWidgets.QGraphicsView):
 
     def setPhoto(self, pixmap=None):
         self._zoom = 0
-        self._unmarkedImage = rgb_view(pixmap.toImage())
+        self._unmarkedImage = QPixmap(pixmap)
         self._current_image = rgb_view(pixmap.toImage())
         if pixmap and not pixmap.isNull():
             self._empty = False
@@ -133,14 +133,12 @@ class Editor(QtWidgets.QGraphicsView):
             self.drawing = True
             self.lastPoint = self.mapToScene(event.pos())
 
-
     def mouseReleaseEvent(self, event):
 
         if self.drawMode:
             if event.button() == Qt.LeftButton:
                 self.drawing = False
         super(Editor, self).mouseReleaseEvent(event)    
-
 
     def inpaint(self):
 
@@ -153,10 +151,16 @@ class Editor(QtWidgets.QGraphicsView):
         output = array2qimage(output_rgb)
         self.set_mask = True
         self._current_image = output_rgb
-        # output.save("output.png","PNG")
         self._photo.setPixmap(QPixmap(output))
 
+    def save(self):
+        img = self._photo.pixmap().toImage()    
+        img.save("output.png", "PNG")
            
+    def reset(self):
+        self._photo.setPixmap(self._unmarkedImage) 
+        self.set_mask = True
+        self._current_image = rgb_view(self._unmarkedImage.toImage())      
 
 class Window(QtWidgets.QWidget):
     def __init__(self):

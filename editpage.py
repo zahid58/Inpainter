@@ -1,11 +1,24 @@
 from PyQt5.QtWidgets import QSizePolicy, QVBoxLayout, QMainWindow, QSlider, QLabel, QGridLayout, QGraphicsScene, QFileDialog, QFrame, QApplication, QPushButton, QTextEdit, QMessageBox, QGraphicsView
 from PyQt5 import uic
-from PyQt5.QtCore import QRectF
+from PyQt5.QtCore import QRectF, QSize
 from PyQt5.QtGui import QPixmap, QImage, QPainterPath, QPainter, QBrush, QPen
 from PyQt5.QtCore import Qt, QPoint
 import sys
 import resources
 from editor import Editor
+import os
+
+def resource_path(relative_path):
+    """ Get absolute path to resource, works for dev and for PyInstaller """
+    try:
+        # PyInstaller creates a temp folder and stores path in _MEIPASS
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.abspath(".")
+
+    return os.path.join(base_path, relative_path)
+
+
 
 class Editpage(QMainWindow):
 	def __init__(self, homepage, image_path):
@@ -16,11 +29,13 @@ class Editpage(QMainWindow):
 		
 	def setupUi(self):	
 
-		uic.loadUi("ui_edit.ui", self)
+		uic.loadUi(resource_path("ui_edit.ui"), self)
 		self.penButton = self.findChild(QPushButton, "pen_button")
 		self.eraserButton = self.findChild(QPushButton, "eraser_button")
 		self.backButton = self.findChild(QPushButton, "back_button")
-		self.nextButton = self.findChild(QPushButton, "next_button")
+		self.inpaintButton = self.findChild(QPushButton, "inpaint_button")
+		self.saveButton = self.findChild(QPushButton, "save_button")
+		self.resetButton = self.findChild(QPushButton, "reset_button")
 		self.minButton = self.findChild(QPushButton, "min_button")
 		self.maxButton = self.findChild(QPushButton, "max_button")
 		self.greenMarker = self.findChild(QPushButton, "green_marker")
@@ -41,8 +56,7 @@ class Editpage(QMainWindow):
 		self.eraserButton.clicked.connect(self.eraserSelect)
 		self.backButton.clicked.connect(self.goBack)
 		self.minButton.clicked.connect(self.showMinimized)
-		self.maxButton.clicked.connect(self.showMaximized)
-		self.nextButton.clicked.connect(self.processImage)
+		self.maxButton.clicked.connect(self.maximize)
 
 		self.redMarker.setProperty('selected',True)
 		self.redMarker.setStyle(self.redMarker.style())
@@ -54,6 +68,10 @@ class Editpage(QMainWindow):
 		self.redMarker.clicked.connect(self.redSelect)
 		self.blueMarker.clicked.connect(self.blueSelect)
 		self.greenMarker.clicked.connect(self.greenSelect)
+
+		self.inpaintButton.clicked.connect(self.inpaintImage)
+		self.saveButton.clicked.connect(self.saveImage)
+		self.resetButton.clicked.connect(self.resetImage)
 
 		flags = Qt.WindowFlags(Qt.FramelessWindowHint|Qt.WindowStaysOnTopHint)
 		self.setWindowFlags(flags)
@@ -68,7 +86,6 @@ class Editpage(QMainWindow):
 		self.imageView.setGeometry(0,0,self.viewFrame.width(),self.viewFrame.height())
 		self.imageView.viewport().setFixedSize(self.viewFrame.width(),self.viewFrame.height())
 		
-		
 		self.imageView.setPhoto(QPixmap(self.image_path))
 
 		# the layout makes sure imageview expands with the frame
@@ -76,7 +93,12 @@ class Editpage(QMainWindow):
 		vbox.addWidget(self.imageView)
 		self.viewFrame.setLayout(vbox)
 
-
+	def maximize(self):
+		self.showMaximized()
+		self.imageView.setGeometry(0,0,self.viewFrame.width(),self.viewFrame.height())
+		self.imageView.viewport().setFixedSize(self.viewFrame.width(),self.viewFrame.height())
+		self.imageView.updateSceneRect(QRectF(0,0,self.viewFrame.width(),self.viewFrame.height()))
+		
 	def redSelect(self):
 		self.redMarker.setProperty('selected',True)
 		self.redMarker.setStyle(self.redMarker.style())
@@ -125,15 +147,20 @@ class Editpage(QMainWindow):
 		self.hide()
 		
 
-	def processImage(self):
+	def inpaintImage(self):
 		self.imageView.inpaint()
 
+	def saveImage(self):
+		self.imageView.save()
+
+	def resetImage(self):
+		self.imageView.reset()
 
 
 	
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    editpage = Editpage()
+    editpage = Editpage(None, None, None)
     editpage.show()
     app.exec()
 		

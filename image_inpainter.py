@@ -2,13 +2,24 @@ from PyQt5.QtWidgets import QMainWindow, QLabel, QFileDialog, QFrame, QApplicati
 from PyQt5 import uic
 from PyQt5.QtCore import Qt
 from editpage import Editpage
-import sys
 import resources
+import sys
+import os
+
+def resource_path(relative_path):
+    """ Get absolute path to resource, works for dev and for PyInstaller """
+    try:
+        # PyInstaller creates a temp folder and stores path in _MEIPASS
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.abspath(".")
+
+    return os.path.join(base_path, relative_path)
 
 class Homepage(QMainWindow):
 	def __init__(self):
 		super().__init__()
-		uic.loadUi("ui_main.ui", self)
+		uic.loadUi(resource_path("ui_main.ui"), self)
 
 		self.minButton = self.findChild(QPushButton, "minimize_button")
 		self.closeButton = self.findChild(QPushButton, "close_button")
@@ -43,11 +54,15 @@ class Homepage(QMainWindow):
 
 
 	def add_image(self):
-		image_path, _ = QFileDialog.getOpenFileName(None, "Open image file...")
-		print(image_path)
-		self.editpage = Editpage(self, image_path)
-		self.hide()
-		self.editpage.show()
+		try:
+			image_path, _ = QFileDialog.getOpenFileName(None, "Open image file...")
+			self.editpage = Editpage(self, image_path)
+			self.hide()
+			self.editpage.show()
+		except:
+			return
+		# print(image_path)
+
 		#self.editpage.showFullScreen()
 		#self.editpage.showMaximized()
 		

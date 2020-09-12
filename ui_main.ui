@@ -104,8 +104,8 @@ font-family : &quot;Source Serif Pro SemiBold&quot;;
       <widget class="QLabel" name="title_label">
        <property name="geometry">
         <rect>
-         <x>100</x>
-         <y>160</y>
+         <x>70</x>
+         <y>120</y>
          <width>251</width>
          <height>121</height>
         </rect>
@@ -118,27 +118,29 @@ font-family : &quot;Source Serif Pro SemiBold&quot;;
        </property>
        <property name="font">
         <font>
-         <family>Source Serif Pro SemiBold</family>
-         <pointsize>28</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
+         <family>Fira Code SemiBold</family>
+         <pointsize>24</pointsize>
+         <weight>7</weight>
+         <italic>false</italic>
+         <bold>false</bold>
         </font>
        </property>
        <property name="styleSheet">
         <string notr="true">background-color: none;
-color: rgb(222, 246, 255);</string>
+color: rgb(222, 246, 255);
+
+font: 63 24pt &quot;Fira Code SemiBold&quot;;</string>
        </property>
        <property name="text">
-        <string>Image
-Inpainter</string>
+        <string>Inpainter</string>
        </property>
       </widget>
       <widget class="QLabel" name="subtitle_label">
        <property name="geometry">
         <rect>
-         <x>100</x>
-         <y>290</y>
-         <width>341</width>
+         <x>70</x>
+         <y>260</y>
+         <width>401</width>
          <height>91</height>
         </rect>
        </property>
@@ -150,14 +152,16 @@ Inpainter</string>
        </property>
        <property name="font">
         <font>
-         <family>Source Serif Pro SemiBold</family>
-         <pointsize>12</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
+         <family>Fira Code Medium</family>
+         <pointsize>11</pointsize>
+         <weight>7</weight>
+         <italic>false</italic>
+         <bold>false</bold>
         </font>
        </property>
        <property name="styleSheet">
         <string notr="true">background-color: none;
+font: 57 11pt &quot;Fira Code Medium&quot;;
 color: rgb(205, 246, 255);
 </string>
        </property>
@@ -170,8 +174,8 @@ color: rgb(205, 246, 255);
       <widget class="QPushButton" name="add_image_button">
        <property name="geometry">
         <rect>
-         <x>100</x>
-         <y>410</y>
+         <x>130</x>
+         <y>420</y>
          <width>51</width>
          <height>51</height>
         </rect>
@@ -202,8 +206,8 @@ background-color:rgb(85, 85, 255)
       <widget class="QLabel" name="preview_image">
        <property name="geometry">
         <rect>
-         <x>340</x>
-         <y>160</y>
+         <x>350</x>
+         <y>150</y>
          <width>461</width>
          <height>301</height>
         </rect>
