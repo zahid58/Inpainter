@@ -109,7 +109,6 @@ class Editpage(QMainWindow):
 		self.penButton.setStyle(self.penButton.style())
 		self.eraserButton.setProperty('selected',False)
 		self.eraserButton.setStyle(self.penButton.style())
-		self.imageView.drawing = False
 		self.imageView.drawMode = True
 
 
@@ -118,7 +117,6 @@ class Editpage(QMainWindow):
 		self.penButton.setStyle(self.penButton.style())
 		self.eraserButton.setProperty('selected',True)
 		self.eraserButton.setStyle(self.penButton.style())
-		self.imageView.drawing = False
 		self.imageView.drawMode = False
 
 

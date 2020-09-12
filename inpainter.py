@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 
-def inpaint(image, mask, method="ns", radius=3):
+def inpaint(image, mask, method=None, radius=3):
 
     flags = cv2.INPAINT_TELEA
     if method == "ns":

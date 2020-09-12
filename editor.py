@@ -37,6 +37,7 @@ class Editor(QtWidgets.QGraphicsView):
         self.color_index = {"red":0, "green":1, "blue":2}
         #mask
         self._mask = None
+        self._current_image = None
         self._unmarkedImage = None
         self.set_mask = False
 
@@ -67,6 +68,7 @@ class Editor(QtWidgets.QGraphicsView):
     def setPhoto(self, pixmap=None):
         self._zoom = 0
         self._unmarkedImage = rgb_view(pixmap.toImage())
+        self._current_image = rgb_view(pixmap.toImage())
         if pixmap and not pixmap.isNull():
             self._empty = False
             self.setDragMode(QtWidgets.QGraphicsView.ScrollHandDrag)
@@ -97,27 +99,30 @@ class Editor(QtWidgets.QGraphicsView):
     
     def mouseMoveEvent(self, event):
 
-        if self.drawMode:
-            if(event.buttons() and Qt.LeftButton) and self.drawing:
-                if self.set_mask:
-                    self.setMask()
-                    self.set_mask = False
-                painter = QPainter (self._mask)
-                if not painter.isActive():
-                    painter.begin(self)
-                painter.setRenderHint(QPainter.Antialiasing, True)
+        if(event.buttons() and Qt.LeftButton) and self.drawing:
+            if self.set_mask:
+                self.setMask()
+                self.set_mask = False
+            painter = QPainter (self._mask)
+            if not painter.isActive():
+                painter.begin(self)
+            painter.setRenderHint(QPainter.Antialiasing, True)
+            if self.drawMode:
                 painter.setPen(QPen(Qt.white, self.brushSlider.value(), Qt.SolidLine, Qt.RoundCap, Qt.RoundJoin))
-                painter.drawLine(self.lastPoint, self.mapToScene(event.pos()))
-                painter.end()
-                self.lastPoint = self.mapToScene(event.pos())
-                img = rgb_view(self._photo.pixmap().toImage())
-                mask = rgb_view(self._mask)
-                channel = self.color_index[self.brushColor]
-                ind = np.all(mask != [0,0,0], axis=-1)
-                color = [50,50,50]
-                color[channel] = 250
-                img[ind] = color
-                self._photo.setPixmap(QPixmap(array2qimage(img)))
+            else:
+                painter.setPen(QPen(Qt.black, self.brushSlider.value(), Qt.SolidLine, Qt.RoundCap, Qt.RoundJoin))
+            painter.drawLine(self.lastPoint, self.mapToScene(event.pos()))
+            painter.end()
+            self.lastPoint = self.mapToScene(event.pos())
+            #img = rgb_view(self._photo.pixmap().toImage())
+            img = np.array(self._current_image)
+            mask = rgb_view(self._mask)
+            channel = self.color_index[self.brushColor]
+            ind = np.all(mask != [0,0,0], axis=-1)
+            color = [50,50,50]
+            color[channel] = 250
+            img[ind] = color
+            self._photo.setPixmap(QPixmap(array2qimage(img))) #
 
         super(Editor, self).mouseMoveEvent(event)        
 
@@ -139,12 +144,15 @@ class Editor(QtWidgets.QGraphicsView):
 
     def inpaint(self):
 
-        img = rgb_view(self._photo.pixmap().toImage())
+        #img = rgb_view(self._photo.pixmap().toImage())
+        img = np.array(self._current_image)
         # cv2.imwrite("unmarked.jpg",self._unmarkedImage)                     
         mask = rgb_view(self._mask)
         # cv2.imwrite("mask.jpg",mask)
-        output = array2qimage(inpainter.inpaint(img, mask))
+        output_rgb = inpainter.inpaint(img, mask)
+        output = array2qimage(output_rgb)
         self.set_mask = True
+        self._current_image = output_rgb
         # output.save("output.png","PNG")
         self._photo.setPixmap(QPixmap(output))
 
