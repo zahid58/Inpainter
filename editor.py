@@ -65,6 +65,7 @@ class Editor(QtWidgets.QGraphicsView):
 
     def setPhoto(self, pixmap=None):
         self._zoom = 0
+        self._unmarkedImage = rgb_view(pixmap.toImage())
         if pixmap and not pixmap.isNull():
             self._empty = False
             self.setDragMode(QtWidgets.QGraphicsView.ScrollHandDrag)
@@ -75,7 +76,8 @@ class Editor(QtWidgets.QGraphicsView):
             self._photo.setPixmap(QtGui.QPixmap()) 
         print(self._photo.pixmap().size())      
         self.setMask()
-        self._unmarkedImage = QImage(pixmap.toImage())   #pixmap.toImage()
+        # pixmap_unmarked = QPixmap(pixmap)
+        # self._unmarkedImage = QImage(pixmap_unmarked.toImage())   #pixmap.toImage()
         self.fitInView()
 
     def wheelEvent(self, event):
@@ -112,13 +114,15 @@ class Editor(QtWidgets.QGraphicsView):
                 painter.end()
 
                 self.lastPoint = self.mapToScene(event.pos())
-                img = rgb_view(self._unmarkedImage)
+                #img = np.array(self._unmarkedImage)
+                img = rgb_view(self._photo.pixmap().toImage())
                 mask = rgb_view(self._mask)
                 channel = self.color_index[self.brushColor]
                 ind = (mask[:,:,channel]!=0)
                 img[:,:,channel][ind] = mask[:,:,channel][ind]
-                self._photo.setPixmap(QPixmap(array2qimage(mask))) #img
+                self._photo.setPixmap(QPixmap(array2qimage(img))) # for debugging : mask
         super(Editor, self).mouseMoveEvent(event)        
+
 
     def mousePressEvent(self, event):
 
@@ -126,20 +130,21 @@ class Editor(QtWidgets.QGraphicsView):
             self.drawing = True
             self.lastPoint = self.mapToScene(event.pos())
 
+
     def mouseReleaseEvent(self, event):
 
         if self.drawMode:
             if event.button() == Qt.LeftButton:
                 self.drawing = False
-
         super(Editor, self).mouseReleaseEvent(event)    
 
+
     def inpaint(self):
-        unmarked_img = rgb_view(self._unmarkedImage)
-        cv2.imwrite("unmarked.jpg",unmarked_img)                     # BUG_FOUND: Unmarked doesn't stay unmarked!!!
+        img = rgb_view(self._photo.pixmap().toImage())
+        cv2.imwrite("unmarked.jpg",self._unmarkedImage)                     # BUG_FOUND: Unmarked doesn't stay unmarked!!!
         mask = rgb_view(self._mask)
         cv2.imwrite("mask.jpg",mask)
-        output = array2qimage(inpainter.inpaint(unmarked_img, mask))
+        output = array2qimage(inpainter.inpaint(img, mask))
         self.set_mask = True
         output.save("output.png","PNG")
         self._photo.setPixmap(QPixmap(output))
