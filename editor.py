@@ -1,5 +1,5 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtWidgets import QSizePolicy, QGraphicsView, QGraphicsScene, QFileDialog
+from PyQt5.QtWidgets import QSizePolicy, QGraphicsView, QGraphicsScene, QSlider, QFileDialog
 from PyQt5.QtCore import Qt, QRectF, pyqtSignal, QT_VERSION_STR, QPoint
 from PyQt5.QtGui import QImage, QPixmap, QPainterPath, QPen, QPainter
 import numpy as np
@@ -9,7 +9,7 @@ import cv2
 
 class Editor(QtWidgets.QGraphicsView):
 
-    def __init__(self, scene = None, parent = None):
+    def __init__(self, scene = None, parent = None, slider = None):
         super(Editor, self).__init__(parent)
         self._zoom = 0
         self._empty = True
@@ -30,8 +30,9 @@ class Editor(QtWidgets.QGraphicsView):
 
         self.drawMode = True
         self.drawing = False
-        self.brushSize = 10
         self.brushColor = "red"
+        #print(type(slider))
+        self.brushSlider = slider
         self.lastPoint = QPoint()
         self.color_index = {"red":0, "green":1, "blue":2}
         #mask
@@ -73,14 +74,12 @@ class Editor(QtWidgets.QGraphicsView):
         else:
             self._empty = True
             self.setDragMode(QtWidgets.QGraphicsView.NoDrag)
-            self._photo.setPixmap(QtGui.QPixmap()) 
-        print(self._photo.pixmap().size())      
+            self._photo.setPixmap(QtGui.QPixmap())     
         self.setMask()
-        # pixmap_unmarked = QPixmap(pixmap)
-        # self._unmarkedImage = QImage(pixmap_unmarked.toImage())   #pixmap.toImage()
         self.fitInView()
 
     def wheelEvent(self, event):
+
         if self.hasPhoto():
             if event.angleDelta().y() > 0:
                 factor = 1.25
@@ -97,30 +96,29 @@ class Editor(QtWidgets.QGraphicsView):
         super(Editor, self).wheelEvent(event)            
     
     def mouseMoveEvent(self, event):
+
         if self.drawMode:
             if(event.buttons() and Qt.LeftButton) and self.drawing:
                 if self.set_mask:
                     self.setMask()
-                    img = None
-                    mask = None
                     self.set_mask = False
-
                 painter = QPainter (self._mask)
                 if not painter.isActive():
                     painter.begin(self)
                 painter.setRenderHint(QPainter.Antialiasing, True)
-                painter.setPen(QPen(Qt.white, self.brushSize, Qt.SolidLine, Qt.RoundCap, Qt.RoundJoin))
+                painter.setPen(QPen(Qt.white, self.brushSlider.value(), Qt.SolidLine, Qt.RoundCap, Qt.RoundJoin))
                 painter.drawLine(self.lastPoint, self.mapToScene(event.pos()))
                 painter.end()
-
                 self.lastPoint = self.mapToScene(event.pos())
-                #img = np.array(self._unmarkedImage)
                 img = rgb_view(self._photo.pixmap().toImage())
                 mask = rgb_view(self._mask)
                 channel = self.color_index[self.brushColor]
-                ind = (mask[:,:,channel]!=0)
-                img[:,:,channel][ind] = mask[:,:,channel][ind]
-                self._photo.setPixmap(QPixmap(array2qimage(img))) # for debugging : mask
+                ind = np.all(mask != [0,0,0], axis=-1)
+                color = [50,50,50]
+                color[channel] = 250
+                img[ind] = color
+                self._photo.setPixmap(QPixmap(array2qimage(img)))
+
         super(Editor, self).mouseMoveEvent(event)        
 
 
@@ -140,13 +138,14 @@ class Editor(QtWidgets.QGraphicsView):
 
 
     def inpaint(self):
+
         img = rgb_view(self._photo.pixmap().toImage())
-        cv2.imwrite("unmarked.jpg",self._unmarkedImage)                     # BUG_FOUND: Unmarked doesn't stay unmarked!!!
+        # cv2.imwrite("unmarked.jpg",self._unmarkedImage)                     
         mask = rgb_view(self._mask)
-        cv2.imwrite("mask.jpg",mask)
+        # cv2.imwrite("mask.jpg",mask)
         output = array2qimage(inpainter.inpaint(img, mask))
         self.set_mask = True
-        output.save("output.png","PNG")
+        # output.save("output.png","PNG")
         self._photo.setPixmap(QPixmap(output))
 
            
@@ -217,3 +216,7 @@ if __name__ == '__main__':
                 # painter.setPen(QPen(self.brushColor, self.brushSize, Qt.SolidLine, Qt.RoundCap, Qt.RoundJoin))
                 # painter.drawLine(self.lastPoint, self.mapToScene(event.pos()))
                 # painter.end()
+
+                # ind = (mask[:,:,channel]!=0)
+                # img[:,:,channel][ind] = 0
+                # img[:,:,channel][ind] = mask[:,:,channel][ind]
