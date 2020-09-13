@@ -1,7 +1,7 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtWidgets import QSizePolicy, QGraphicsView, QGraphicsScene, QSlider, QFileDialog
+from PyQt5.QtWidgets import QSizePolicy, QGraphicsView, QGraphicsScene, QSlider, QFileDialog, QShortcut
 from PyQt5.QtCore import Qt, QRectF, pyqtSignal, QT_VERSION_STR, QPoint
-from PyQt5.QtGui import QImage, QPixmap, QPainterPath, QPen, QPainter
+from PyQt5.QtGui import QImage, QPixmap, QPainterPath, QPen, QPainter, QActionEvent, QKeySequence
 import numpy as np
 import inpainter
 from qimage2ndarray import rgb_view, array2qimage
@@ -41,6 +41,13 @@ class Editor(QtWidgets.QGraphicsView):
         self._unmarkedImage = None
         self.set_mask = False
 
+        self.inpaintSc = QShortcut(QKeySequence('Ctrl+I'), self)
+        self.inpaintSc.activated.connect(self.inpaint)
+        self.saveSc = QShortcut(QKeySequence('Ctrl+S'), self)
+        self.saveSc.activated.connect(self.save)
+        self.resetSc = QShortcut(QKeySequence('Ctrl+R'), self)
+        self.resetSc.activated.connect(self.reset)        
+
     def hasPhoto(self):
         return not self._empty
 
@@ -66,6 +73,8 @@ class Editor(QtWidgets.QGraphicsView):
         self._mask.fill(Qt.black)
 
     def setPhoto(self, pixmap=None):
+        if pixmap.height() > 720 or pixmap.width() > 1280:
+            pixmap = pixmap.scaled(1280, 720, Qt.KeepAspectRatio)
         self._zoom = 0
         self._unmarkedImage = QPixmap(pixmap)
         self._current_image = rgb_view(pixmap.toImage())
@@ -115,13 +124,13 @@ class Editor(QtWidgets.QGraphicsView):
             painter.end()
             self.lastPoint = self.mapToScene(event.pos())
             #img = rgb_view(self._photo.pixmap().toImage())
-            img = np.array(self._current_image)
+            img = np.array(self._current_image, dtype = np.float32)
             mask = rgb_view(self._mask)
             channel = self.color_index[self.brushColor]
             ind = np.all(mask != [0,0,0], axis=-1)
-            color = [50,50,50]
+            color = np.array([50,50,50], dtype = np.float32)
             color[channel] = 250
-            img[ind] = color
+            img[ind] = img[ind]*0.35 + color*0.65
             self._photo.setPixmap(QPixmap(array2qimage(img))) #
 
         super(Editor, self).mouseMoveEvent(event)        
@@ -150,16 +159,24 @@ class Editor(QtWidgets.QGraphicsView):
         output_rgb = inpainter.inpaint(img, mask)
         output = array2qimage(output_rgb)
         self.set_mask = True
+        self.setMask()
         self._current_image = output_rgb
         self._photo.setPixmap(QPixmap(output))
 
     def save(self):
-        img = self._photo.pixmap().toImage()    
-        img.save("output.png", "PNG")
-           
+        try:
+            image_path, _ = QFileDialog.getSaveFileName()  #(self, caption="Save image file...")  
+            img = self._photo.pixmap().toImage()
+            if not image_path.endswith(".png"):
+                image_path += ".png"
+            img.save(image_path, "PNG")
+        except:
+            pass
+
     def reset(self):
         self._photo.setPixmap(self._unmarkedImage) 
         self.set_mask = True
+        self.setMask()
         self._current_image = rgb_view(self._unmarkedImage.toImage())      
 
 class Window(QtWidgets.QWidget):
