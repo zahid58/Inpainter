@@ -1,14 +1,13 @@
 import cv2
 import numpy as np
 
-def inpaint(image, mask, method=None, radius=3):
+def inpaint(image, mask, method="telea", radius=3):
 
-    flags = cv2.INPAINT_TELEA
-    if method == "ns":
-        flags = cv2.INPAINT_NS
-
+    flags = cv2.INPAINT_NS
+    if method == "telea":
+        flags = cv2.INPAINT_TELEA
+    print(method)
     mask = cv2.cvtColor(mask, cv2.COLOR_BGR2GRAY)
-
 
     # perform inpainting using OpenCV
     output = cv2.inpaint(image, mask, radius, flags=flags)

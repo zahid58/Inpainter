@@ -36,6 +36,7 @@ class Editor(QtWidgets.QGraphicsView):
         self.lastPoint = QPoint()
         self.color_index = {"red":0, "green":1, "blue":2}
         #mask
+        self.method = "telea"
         self._mask = None
         self._current_image = None
         self._unmarkedImage = None
@@ -45,7 +46,7 @@ class Editor(QtWidgets.QGraphicsView):
         self.inpaintSc.activated.connect(self.inpaint)
         self.saveSc = QShortcut(QKeySequence('Ctrl+S'), self)
         self.saveSc.activated.connect(self.save)
-        self.resetSc = QShortcut(QKeySequence('Ctrl+R'), self)
+        self.resetSc = QShortcut(QKeySequence('Ctrl+Z'), self)
         self.resetSc.activated.connect(self.reset)        
 
     def hasPhoto(self):
@@ -130,7 +131,7 @@ class Editor(QtWidgets.QGraphicsView):
             ind = np.all(mask != [0,0,0], axis=-1)
             color = np.array([50,50,50], dtype = np.float32)
             color[channel] = 250
-            img[ind] = img[ind]*0.35 + color*0.65
+            img[ind] = img[ind]*0.40 + color*0.60
             self._photo.setPixmap(QPixmap(array2qimage(img))) #
 
         super(Editor, self).mouseMoveEvent(event)        
@@ -156,7 +157,7 @@ class Editor(QtWidgets.QGraphicsView):
         # cv2.imwrite("unmarked.jpg",self._unmarkedImage)                     
         mask = rgb_view(self._mask)
         # cv2.imwrite("mask.jpg",mask)
-        output_rgb = inpainter.inpaint(img, mask)
+        output_rgb = inpainter.inpaint(img, mask,method=self.method)
         output = array2qimage(output_rgb)
         self.set_mask = True
         self.setMask()

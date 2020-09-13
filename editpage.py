@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QSizePolicy, QVBoxLayout, QMainWindow, QSlider, QLabel, QGridLayout, QGraphicsScene, QFileDialog, QFrame, QApplication, QPushButton, QTextEdit, QMessageBox, QGraphicsView
+from PyQt5.QtWidgets import QSizePolicy, QComboBox, QVBoxLayout, QMainWindow, QSlider, QLabel, QGridLayout, QGraphicsScene, QFileDialog, QFrame, QApplication, QPushButton, QTextEdit, QMessageBox, QGraphicsView
 from PyQt5 import uic
 from PyQt5.QtCore import QRectF, QSize
 from PyQt5.QtGui import QPixmap, QImage, QPainterPath, QPainter, QBrush, QPen
@@ -46,6 +46,8 @@ class Editpage(QMainWindow):
 		self.infoLabel = self.findChild(QLabel, "info_label")
 		self.mainFrame = self.findChild(QFrame, "main_frame")
 		self.viewFrame = self.findChild(QFrame, "view_frame")
+		self.chooseMethod = self.findChild(QComboBox, "choose_method")
+		self.chooseMethod.currentIndexChanged.connect(self.selectionChange)
 		
 		self.penButton.setProperty('selected',True)
 		self.penButton.setStyle(self.penButton.style())
@@ -93,6 +95,12 @@ class Editpage(QMainWindow):
 		vbox.addWidget(self.imageView)
 		self.viewFrame.setLayout(vbox)
 
+	def selectionChange(self):
+		if self.chooseMethod.currentText() == "Navier-Stokes":
+			self.imageView.method = "ns"
+		elif self.chooseMethod.currentText() == "Telea":
+			self.imageView.method = "telea"
+			
 	def maximize(self):
 		self.showMaximized()
 		self.imageView.setGeometry(0,0,self.viewFrame.width(),self.viewFrame.height())
