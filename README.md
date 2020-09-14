@@ -30,14 +30,17 @@ Later on, I'll try to incorporate recent deep learning method that perform way b
 <p>removes text quite well!
 </h4>
 
-
+### Required libraries
+PyQt, Numpy, OpenCV3, qimage2ndarray
 ### How to run
-open up console in the project directory and run -
+open up console in the project directory and enter this 
 ```
 python inpainter.py
 ```
+<p align="center">
+ <img alt="editing" src="https://github.com/Zedd1558/Image-Inpainter/blob/master/demo/inpaint_demo.gif">
+</p>
 
-![inpaint_demo](https://github.com/Zedd1558/Image-Inpainter/blob/master/demo/inpaint_demo.gif)
 
 
 
