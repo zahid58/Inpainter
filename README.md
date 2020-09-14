@@ -9,7 +9,7 @@
 remove forground objects. This is GUI tool that helps you do just that. It is interactive and user-friendly GUI for marking the regions of the images. The backend inpainting operations are made using *OpenCV* library.
 
 <p align="center">
-  photo
+ <img alt="cover" src="https://github.com/Zedd1558/Image-Inpainter/blob/master/demo/cover.jpg">
 </p>
 
 ![inpaint_demo](https://github.com/Zedd1558/Image-Inpainter/blob/master/demo/inpaint_demo.gif)
