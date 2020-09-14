@@ -15,10 +15,11 @@ remove forground objects. This is GUI tool that helps you do just that. It is in
 The backend inpainting operations are made using *OpenCV* library. Currently, *OpenCV* provides two algorithms for inpainting which are-
 * cv2.INPAINT_TELEA: An image inpainting technique based on the fast marching method (Telea, 2004)
 * cv2.INPAINT_NS: Navier-stokes, Fluid dynamics, and image and video inpainting (Bertalmío et al., 2001)
+
 Later on, I'll try to incorporate recent deep learning method that perform way better than these classical image processing algorithms.
 
 <p align="center">
- <img alt="cover" src="https://github.com/Zedd1558/Image-Inpainter/blob/master/demo/editpage.jpg" height="50%" width="50%">
+ <img alt="cover" src="https://github.com/Zedd1558/Image-Inpainter/blob/master/demo/editpage.jpg">
 </p>
 
 
