@@ -3,7 +3,7 @@ from PyQt5.QtWidgets import QSizePolicy, QGraphicsView, QGraphicsScene, QSlider,
 from PyQt5.QtCore import Qt, QRectF, pyqtSignal, QT_VERSION_STR, QPoint
 from PyQt5.QtGui import QImage, QPixmap, QPainterPath, QPen, QPainter, QActionEvent, QKeySequence
 import numpy as np
-import inpainter
+import backend
 from qimage2ndarray import rgb_view, array2qimage
 import cv2
 
@@ -157,7 +157,7 @@ class Editor(QtWidgets.QGraphicsView):
         # cv2.imwrite("unmarked.jpg",self._unmarkedImage)                     
         mask = rgb_view(self._mask)
         # cv2.imwrite("mask.jpg",mask)
-        output_rgb = inpainter.inpaint(img, mask,method=self.method)
+        output_rgb = backend.inpaint(img, mask,method=self.method)
         output = array2qimage(output_rgb)
         self.set_mask = True
         self.setMask()
