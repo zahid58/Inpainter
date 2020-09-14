@@ -41,7 +41,7 @@ python inpainter.py
  <img alt="editing" src="https://github.com/Zedd1558/Image-Inpainter/blob/master/demo/inpaint_demo.gif">
 </p>
 
-### Standalone Executable Version 1
+### Standalone Executable
 You will get the application in just one exectuable file (.exe) in the following drive link.
 https://drive.google.com/file/d/15VgWTtdBd0udJQqq8p7xmsWmGSTzm0qE/view?usp=sharing
 
