@@ -18,7 +18,7 @@ The frontend GUI is developed using PyQt. The backend inpainting operations are 
 * cv2.INPAINT_TELEA: An image inpainting technique based on the fast marching method (Telea, 2004)
 * cv2.INPAINT_NS: Navier-stokes, Fluid dynamics, and image and video inpainting (Bertalmío et al., 2001)
 
-Later on, I'll try to incorporate recent deep learning method that perform way better than these classical image processing algorithms.
+Later on, I'll try to incorporate recent deep learning methods that perform way better than these classical image processing algorithms.
 
 <h4 align="center">
 <p>let's see an exmaple
@@ -44,3 +44,7 @@ python inpainter.py
 ### Standalone Executable Version 1
 You will get the application in just one exectuable file (.exe) in the following drive link.
 https://drive.google.com/file/d/15VgWTtdBd0udJQqq8p7xmsWmGSTzm0qE/view?usp=sharing
+
+### Contribute
+Feel free to contribute to the project and make it feature-rich. You can incorporate recent deep learning methods, make the GUI more easy to use, include relevant photo editing features. 
+
