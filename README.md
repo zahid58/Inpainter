@@ -5,7 +5,7 @@
 <p>A python GUI application to inpaint images.
 </h3>
 
-*Inpainting* is a set of image processing algorithms where damaged, deteriorating, or missing parts of an artwork are filled in to present a complete image. It can also be used to 
+*Inpainting* is a set of image processing algorithms where damaged, missing or unwanted parts of an image are filled in using the neighbouring pixels. It can also be used to 
 remove forground objects. This is GUI tool that helps you do just that. It is interactive and user-friendly GUI for marking the regions of the images. 
 
 <p align="center">
