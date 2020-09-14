@@ -46,5 +46,5 @@ You will get the application in just one exectuable file (.exe) in the following
 https://drive.google.com/file/d/15VgWTtdBd0udJQqq8p7xmsWmGSTzm0qE/view?usp=sharing
 
 ### Contribute
-Feel free to contribute to the project and make it feature-rich. You can incorporate recent deep learning methods, make the GUI more easy to use, include relevant photo editing features. 
+Feel free to fork the project and contribute. You can incorporate recent deep learning methods, make the GUI more easy to use, include relevant photo editing features. 
 
