@@ -12,7 +12,9 @@ remove forground objects. This is GUI tool that helps you do just that. It is in
  <img alt="cover" src="https://github.com/Zedd1558/Image-Inpainter/blob/master/demo/cover.jpg" height="50%" width="50%">
 </p>
 
-The backend inpainting operations are made using *OpenCV* library. Currently, *OpenCV* provides two algorithms for inpainting which are-
+
+### Implementation
+The frontend GUI is developed using PyQt. The backend inpainting operations are done using *OpenCV* library. Currently, *OpenCV* provides two algorithms for inpainting which are-
 * cv2.INPAINT_TELEA: An image inpainting technique based on the fast marching method (Telea, 2004)
 * cv2.INPAINT_NS: Navier-stokes, Fluid dynamics, and image and video inpainting (Bertalmío et al., 2001)
 
@@ -22,6 +24,7 @@ Later on, I'll try to incorporate recent deep learning method that perform way b
  <img alt="cover" src="https://github.com/Zedd1558/Image-Inpainter/blob/master/demo/editpage.jpg">
 </p>
 
+### How to run
 
 ![inpaint_demo](https://github.com/Zedd1558/Image-Inpainter/blob/master/demo/inpaint_demo.gif)
 
