@@ -20,10 +20,16 @@ The frontend GUI is developed using PyQt. The backend inpainting operations are 
 
 Later on, I'll try to incorporate recent deep learning method that perform way better than these classical image processing algorithms.
 
-
+<h4 align="center">
+<p>let's see an exmaple
+</h4>
 <p align="center">
  <img alt="editing" src="https://github.com/Zedd1558/Image-Inpainter/blob/master/demo/editpage.jpg">
 </p>
+<h4 align="center">
+<p>removes text quite well!
+</h4>
+
 
 ### How to run
 open up console in the project directory and run -
