@@ -6,7 +6,7 @@
 </h3>
 
 *Inpainting* is a set of image processing algorithms where damaged, missing or unwanted parts of an image are filled in using the neighbouring pixels. It can also be used to 
-remove forground objects. This is GUI tool that helps you do just that. It is interactive and user-friendly GUI for marking the regions of the images. 
+remove forground objects. This is a GUI application that helps you do just that. It has an interactive and user-friendly GUI for marking the regions of the images. 
 
 <p align="center">
  <img alt="cover" src="https://github.com/Zedd1558/Image-Inpainter/blob/master/demo/cover.jpg" height="50%" width="50%">
