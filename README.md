@@ -45,7 +45,7 @@ def inpaint_deepfill(image, mask):
     # return your output image with format numpy ndarray, for now I am just returning the input image
     return image    
 ```
-3. Last thing you need to do is call your inpainting method from *editor.py*. Go to the method *inpaint()* of *editor.py*. Add and elif condition which check `self._method` by your method's name and calls the inpainting method of *backend.py*
+3. Last thing you need to do is call your inpainting method from *editor.py*. Go to the method *inpaint()* of *editor.py*. Add and elif condition which checks `self._method` by your method's name and calls the corresponding inpainting method from *backend.py*
 ```python
     def inpaint(self):
         img = np.array(self._current_image)                   
