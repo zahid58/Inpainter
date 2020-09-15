@@ -54,8 +54,11 @@ def inpaint_deepfill(image, mask):
         if self._method == "Navier-Stokes":
             output_rgb = backend.inpaint_cv2(img, mask,method="ns")
             
-        elif self._method == "Deepfill":                          # add these lines 
-            output_rgb = backend.inpaint_deepfill(img, mask)      # to call your inpainting algorithm
+        elif self._method == "Telea":
+            output_rgb = backend.inpaint_cv2(img, mask,method="telea")
+         
+        elif self._method == "Deepfill":                                  # add these lines 
+            output_rgb = backend.inpaint_deepfill(img, mask)              # to call your inpainting algorithm
             
         else:
             raise Exception("this inpainting method is not recognized!")
