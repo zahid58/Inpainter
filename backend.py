@@ -20,5 +20,5 @@ def inpaint_deepfill(image, mask):
     # and pass your image and mask to your algorithm
     # return your output image with format numpy ndarray
     # for now just returning the input image
-    print("deepfill")
+    print("deepfill - not implemented yet")
     return image    
