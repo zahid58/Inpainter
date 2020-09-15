@@ -38,7 +38,7 @@ open up console in the project directory and enter this
 python inpainter.py
 ```
 <p align="center">
- <img alt="editing" src="https://github.com/Zedd1558/Image-Inpainter/blob/master/demo/inpaint_demo.gif">
+ <img alt="editing" src="https://github.com/Zedd1558/Image-Inpainter/blob/master/demo/inpaint_demo2.gif">
 </p>
 
 ### Standalone Executable
