@@ -95,12 +95,16 @@ class Editpage(QMainWindow):
 		vbox.addWidget(self.imageView)
 		self.viewFrame.setLayout(vbox)
 
+		self.addInpaintingMethod("Deepfill")  # adding a new inpainting method
+	
 	def selectionChange(self):
-		if self.chooseMethod.currentText() == "Navier-Stokes":
-			self.imageView.method = "ns"
-		elif self.chooseMethod.currentText() == "Telea":
-			self.imageView.method = "telea"
-			
+		self.imageView.setInpaintingMethod(self.chooseMethod.currentText())
+
+	def addInpaintingMethod(self, method):
+		if not isinstance(method, str):
+			raise Exception("method should be a string.")
+		self.chooseMethod.addItem(method) 
+
 	def maximize(self):
 		self.showMaximized()
 		self.imageView.setGeometry(0,0,self.viewFrame.width(),self.viewFrame.height())

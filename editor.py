@@ -36,7 +36,7 @@ class Editor(QtWidgets.QGraphicsView):
         self.lastPoint = QPoint()
         self.color_index = {"red":0, "green":1, "blue":2}
         #mask
-        self.method = "telea"
+        self._method = "Telea"
         self._mask = None
         self._current_image = None
         self._unmarkedImage = None
@@ -48,6 +48,9 @@ class Editor(QtWidgets.QGraphicsView):
         self.saveSc.activated.connect(self.save)
         self.resetSc = QShortcut(QKeySequence('Ctrl+Z'), self)
         self.resetSc.activated.connect(self.reset)        
+
+    def setInpaintingMethod(self, method):
+        self._method = method
 
     def hasPhoto(self):
         return not self._empty
@@ -152,12 +155,23 @@ class Editor(QtWidgets.QGraphicsView):
 
     def inpaint(self):
 
-        #img = rgb_view(self._photo.pixmap().toImage())
-        img = np.array(self._current_image)
+        img = np.array(self._current_image) 
         # cv2.imwrite("unmarked.jpg",self._unmarkedImage)                     
         mask = rgb_view(self._mask)
         # cv2.imwrite("mask.jpg",mask)
-        output_rgb = backend.inpaint(img, mask,method=self.method)
+
+        if self._method == "Navier-Stokes":
+            output_rgb = backend.inpaint_cv2(img, mask,method="ns")
+
+        elif self._method == "Telea":
+            output_rgb = backend.inpaint_cv2(img, mask,method="telea") 
+
+        elif self._method == "Deepfill":
+            output_rgb = backend.inpaint_deepfill(img, mask)
+
+        else:
+            raise Exception("this inpainting method is not recognized!")
+
         output = array2qimage(output_rgb)
         self.set_mask = True
         self.setMask()
@@ -210,7 +224,7 @@ if __name__ == '__main__':
 
 
 
-
+#----------------------Trash-----------------
 
     # def QImageToArray(self, qimage):
     #     size = qimage.size()         
@@ -250,3 +264,5 @@ if __name__ == '__main__':
                 # ind = (mask[:,:,channel]!=0)
                 # img[:,:,channel][ind] = 0
                 # img[:,:,channel][ind] = mask[:,:,channel][ind]
+
+    #img = rgb_view(self._photo.pixmap().toImage())
