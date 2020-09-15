@@ -32,6 +32,7 @@ Later on, I'll try to incorporate recent deep learning methods that perform way 
 
 ### Here's how you can quickly incorporate other inpainting methods
 Let's say you want to add the inpainting algorithm **Deepfill**. Here's how you can do it:
+
 **1.** Open up *editpage.py*. Go to the method *setupUi()* of class *Editpage*. Add the following line at the very end of this method.
 ```python
 self.addInpaintingMethod("Deepfill")
