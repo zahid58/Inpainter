@@ -46,20 +46,20 @@ python inpainter.py
 ### Here's how you can quickly incorporate other inpainting methods
 Let's say you want to add the inpainting algorithm **Deepfill**. Here's how you can do it:
 
-**1.** Open up *editpage.py*. Go to the method *setupUi()* of class *Editpage*. Add the following line at the very end of this method.
+**1.** Open up *editpage.py*. Go to the function *setupUi()* of class *Editpage*. Add the following line at the very end of this function.
 ```python
 self.addInpaintingMethod("Deepfill")
 ```
 This will add your new method's name in the *dropdown selection list* of the GUI editing page.
 
-**2.** Now, in *backend.py* you can add a method that will call your inpainting algorithm.
+**2.** Now, in *backend.py* you can add a function that will call your inpainting algorithm.
 ```python
 def inpaint_deepfill(image, mask):
     # call your custom algorithm for inpainting here and pass your image and mask to your algorithm
     # return your output image with format numpy ndarray, for now I am just returning the input image
     return image    
 ```
-**3.** Last thing you need to do is call your inpainting method from *editor.py*. Go to the method *inpaint()* of *editor.py*. Add and elif condition which checks `self._method` by your method's name and calls the corresponding inpainting method from *backend.py*
+**3.** Last thing you need to do is call your inpainting method in *backend.py* from *editor.py*. Go to the function *inpaint()* of *editor.py*. Add an *elif condition* which checks `self._method` by your method's name and calls the corresponding inpainting method from *backend.py*
 ```python
     def inpaint(self):
         img = np.array(self._current_image)                   
