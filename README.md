@@ -30,6 +30,40 @@ Later on, I'll try to incorporate recent deep learning methods that perform way 
 <p>removes text quite well!
 </h4>
 
+### Here's how you can quickly incorporate other inpainting methods
+Let's say you want to add the inpainting algorithm **Deepfill**. Here's how you can do it:
+1. Open up *editpage.py*. Go to the method *setupUi()* of class *Editpage*. Add the following line at the very end of this method.
+```python
+self.addInpaintingMethod("Deepfill")
+```
+This will add your new method's name in the *dropdown selection list* of the GUI editing page.
+2. Now, in *backend.py* you can add a method that will call your inpainting algorithm.
+```python
+def inpaint_deepfill(image, mask):
+    # call your custom algorithm for inpainting here and pass your image and mask to your algorithm
+    # return your output image with format numpy ndarray, for now I am just returning the input image
+    return image    
+```
+3. Last thing you need to do is call your inpainting method from *editor.py*.
+```python
+    def inpaint(self):
+        img = np.array(self._current_image)                   
+        mask = rgb_view(self._mask)
+      
+        if self._method == "Navier-Stokes":
+            output_rgb = backend.inpaint_cv2(img, mask,method="ns")
+
+        elif self._method == "Telea":
+            output_rgb = backend.inpaint_cv2(img, mask,method="telea") 
+            
+        `elif self._method == "Deepfill":`
+            `output_rgb = backend.inpaint_deepfill(img, mask)`
+            
+        else:
+            raise Exception("this inpainting method is not recognized!")
+        output = array2qimage(output_rgb)
+```
+
 ### Required libraries
 PyQt, Numpy, OpenCV3, qimage2ndarray
 ### How to run
