@@ -52,11 +52,9 @@ def inpaint_deepfill(image, mask):
       
         if self._method == "Navier-Stokes":
             output_rgb = backend.inpaint_cv2(img, mask,method="ns")
-        ::: warning
-*here be dragons*
-:::
-        elif self._method == "Deepfill":
-            output_rgb = backend.inpaint_deepfill(img, mask)
+            
+        elif self._method == "Deepfill":                          # add these lines 
+            output_rgb = backend.inpaint_deepfill(img, mask)      # to call your inpainting algorithm
             
         else:
             raise Exception("this inpainting method is not recognized!")
