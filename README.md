@@ -44,7 +44,7 @@ def inpaint_deepfill(image, mask):
     # return your output image with format numpy ndarray, for now I am just returning the input image
     return image    
 ```
-3. Last thing you need to do is call your inpainting method from *editor.py*.
+3. Last thing you need to do is call your inpainting method from *editor.py*. Go to the method *inpaint()* of *editor.py*. Add and elif condition which check `self._method` by your method's name and calls the inpainting method of *backend.py*
 ```python
     def inpaint(self):
         img = np.array(self._current_image)                   
@@ -52,12 +52,11 @@ def inpaint_deepfill(image, mask):
       
         if self._method == "Navier-Stokes":
             output_rgb = backend.inpaint_cv2(img, mask,method="ns")
-
-        elif self._method == "Telea":
-            output_rgb = backend.inpaint_cv2(img, mask,method="telea") 
-            
-        `elif self._method == "Deepfill":`
-            `output_rgb = backend.inpaint_deepfill(img, mask)`
+        ::: warning
+*here be dragons*
+:::
+        elif self._method == "Deepfill":
+            output_rgb = backend.inpaint_deepfill(img, mask)
             
         else:
             raise Exception("this inpainting method is not recognized!")
