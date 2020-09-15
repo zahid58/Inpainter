@@ -37,6 +37,7 @@ Let's say you want to add the inpainting algorithm **Deepfill**. Here's how you 
 self.addInpaintingMethod("Deepfill")
 ```
 This will add your new method's name in the *dropdown selection list* of the GUI editing page.
+
 2. Now, in *backend.py* you can add a method that will call your inpainting algorithm.
 ```python
 def inpaint_deepfill(image, mask):
