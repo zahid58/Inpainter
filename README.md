@@ -5,8 +5,8 @@
 <p>A python GUI application to inpaint images.
 </h3>
 
-*Inpainting* is a set of image processing algorithms where damaged, deteriorating, or missing parts of an artwork are filled in to present a complete image. It can also be used to 
-remove forground objects. This is GUI tool that helps you do just that. It is interactive and user-friendly GUI for marking the regions of the images. 
+*Inpainting* is a set of image processing algorithms where damaged, missing or unwanted parts of an image are filled in using the neighbouring pixels. It can also be used to 
+remove forground objects. This is a GUI application that helps you do just that. It has an interactive and user-friendly GUI for marking the regions of the images. 
 
 <p align="center">
  <img alt="cover" src="https://github.com/Zedd1558/Image-Inpainter/blob/master/demo/cover.jpg" height="50%" width="50%">
@@ -43,7 +43,7 @@ python inpainter.py
 
 ### Standalone Executable
 You will get the application in just one exectuable file (.exe) in the following drive link.
-https://drive.google.com/file/d/15VgWTtdBd0udJQqq8p7xmsWmGSTzm0qE/view?usp=sharing
+https://drive.google.com/file/d/1ReiSmzh3T9DRLvMrtOJeaH2hWSJ9sE9a/view?usp=sharing
 
 ### Contribute
 Feel free to fork the project and contribute. You can incorporate recent deep learning methods, make the GUI more easy to use, include relevant photo editing features. 
