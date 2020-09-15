@@ -18,7 +18,7 @@ The frontend GUI is developed using PyQt. The backend inpainting operations are 
 * cv2.INPAINT_TELEA: An image inpainting technique based on the fast marching method (Telea, 2004)
 * cv2.INPAINT_NS: Navier-stokes, Fluid dynamics, and image and video inpainting (Bertalmío et al., 2001)
 
-Later on, I'll try to incorporate recent deep learning methods that perform way better than these classical image processing algorithms.
+Later on, I'll try to incorporate recent deep learning methods that perform way better than these classical image processing algorithms. I've mentioned how you can quickly incorporate other inpainting algorithms with this GUI applications down below.
 
 <h4 align="center">
 <p>let's see an exmaple
@@ -29,6 +29,19 @@ Later on, I'll try to incorporate recent deep learning methods that perform way 
 <h4 align="center">
 <p>removes text quite well!
 </h4>
+
+### Required libraries
+PyQt, Numpy, OpenCV3, qimage2ndarray
+
+### How to run
+open up console in the project directory and enter this 
+```
+python inpainter.py
+```
+<p align="center">
+ <img alt="editing" src="https://github.com/Zedd1558/Image-Inpainter/blob/master/demo/inpaint_demo2.gif">
+</p>
+
 
 ### Here's how you can quickly incorporate other inpainting methods
 Let's say you want to add the inpainting algorithm **Deepfill**. Here's how you can do it:
@@ -66,16 +79,7 @@ def inpaint_deepfill(image, mask):
         output = array2qimage(output_rgb)
 ```
 
-### Required libraries
-PyQt, Numpy, OpenCV3, qimage2ndarray
-### How to run
-open up console in the project directory and enter this 
-```
-python inpainter.py
-```
-<p align="center">
- <img alt="editing" src="https://github.com/Zedd1558/Image-Inpainter/blob/master/demo/inpaint_demo2.gif">
-</p>
+
 
 ### Standalone Executable
 You will get the application in just one exectuable file (.exe) in the following drive link.
