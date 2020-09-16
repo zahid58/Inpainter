@@ -34,7 +34,15 @@ class Homepage(QMainWindow):
 		flags = Qt.WindowFlags(Qt.FramelessWindowHint)
 		self.setWindowFlags(flags)
 		self.setAttribute(Qt.WA_TranslucentBackground)
+
+		self.moveAtCenter()
 		self.show()
+
+	def moveAtCenter(self):
+		screen = QApplication.desktop().screenGeometry()
+		x = (screen.width() - self.width())//2
+		y = (screen.height() - self.height())//2
+		self.move(x,y)		
 
 	def mousePressEvent(self, event):
 		if event.button() == Qt.LeftButton:

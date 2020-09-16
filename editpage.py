@@ -26,6 +26,7 @@ class Editpage(QMainWindow):
 		self.homepage = homepage
 		self.image_path = image_path
 		self.setupUi()
+		self.moveAtCenter()
 		
 	def setupUi(self):	
 
@@ -96,7 +97,16 @@ class Editpage(QMainWindow):
 		self.viewFrame.setLayout(vbox)
 
 		self.addInpaintingMethod("Deepfill")  # adding a new inpainting method
-	
+
+
+
+
+	def moveAtCenter(self):
+		screen = QApplication.desktop().screenGeometry()
+		x = (screen.width() - self.width())//2
+		y = (screen.height() - self.height())//2
+		self.move(x,y)	
+
 	def selectionChange(self):
 		self.imageView.setInpaintingMethod(self.chooseMethod.currentText())
 

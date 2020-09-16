@@ -32,13 +32,17 @@
    </size>
   </property>
   <property name="mouseTracking">
-   <bool>true</bool>
+   <bool>false</bool>
   </property>
   <property name="focusPolicy">
    <enum>Qt::ClickFocus</enum>
   </property>
   <property name="windowTitle">
-   <string>Image Inpaiter</string>
+   <string>Inpainter</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="resources/inpainter_resources.qrc">
+    <normaloff>:/icons/brush_icon.png</normaloff>:/icons/brush_icon.png</iconset>
   </property>
   <property name="styleSheet">
    <string notr="true"/>
@@ -102,14 +106,17 @@ font-family : &quot;Source Serif Pro SemiBold&quot;;
            <height>573</height>
           </size>
          </property>
+         <property name="mouseTracking">
+          <bool>true</bool>
+         </property>
          <property name="styleSheet">
-          <string notr="true"/>
+          <string notr="true">background: rgb(114, 159, 207)</string>
          </property>
          <property name="frameShape">
           <enum>QFrame::NoFrame</enum>
          </property>
          <property name="frameShadow">
-          <enum>QFrame::Raised</enum>
+          <enum>QFrame::Plain</enum>
          </property>
         </widget>
        </item>
