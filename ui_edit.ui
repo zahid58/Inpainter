@@ -110,7 +110,9 @@ font-family : &quot;Source Serif Pro SemiBold&quot;;
           <bool>true</bool>
          </property>
          <property name="styleSheet">
-          <string notr="true">background: rgb(114, 159, 207)</string>
+          <string notr="true">QScrollBar{
+background: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(85, 93, 227, 255), stop:1 rgba(147, 200, 255, 255));
+}</string>
          </property>
          <property name="frameShape">
           <enum>QFrame::NoFrame</enum>
