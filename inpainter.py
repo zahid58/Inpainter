@@ -31,7 +31,7 @@ class Homepage(QMainWindow):
 		self.closeButton.clicked.connect(self.close)
 		self.addImageButton.clicked.connect(self.add_image)
 
-		flags = Qt.WindowFlags(Qt.FramelessWindowHint|Qt.WindowStaysOnTopHint)
+		flags = Qt.WindowFlags(Qt.FramelessWindowHint)
 		self.setWindowFlags(flags)
 		self.setAttribute(Qt.WA_TranslucentBackground)
 		self.show()

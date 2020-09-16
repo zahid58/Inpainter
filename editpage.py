@@ -75,7 +75,7 @@ class Editpage(QMainWindow):
 		self.saveButton.clicked.connect(self.saveImage)
 		self.resetButton.clicked.connect(self.resetImage)
 
-		flags = Qt.WindowFlags(Qt.FramelessWindowHint|Qt.WindowStaysOnTopHint)
+		flags = Qt.WindowFlags(Qt.FramelessWindowHint)
 		self.setWindowFlags(flags)
 		self.setAttribute(Qt.WA_TranslucentBackground)
 
