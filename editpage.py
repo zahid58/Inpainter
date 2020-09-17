@@ -8,16 +8,15 @@ import resources
 from editor import Editor
 import os
 
+
 def resource_path(relative_path):
     """ Get absolute path to resource, works for dev and for PyInstaller """
     try:
-        # PyInstaller creates a temp folder and stores path in _MEIPASS
         base_path = sys._MEIPASS
     except Exception:
         base_path = os.path.abspath(".")
 
     return os.path.join(base_path, relative_path)
-
 
 
 class Editpage(QMainWindow):
@@ -27,8 +26,8 @@ class Editpage(QMainWindow):
 		self.image_path = image_path
 		self.setupUi()
 		self.moveAtCenter()
-		
-	def setupUi(self):	
+
+	def setupUi(self):
 
 		uic.loadUi(resource_path("ui_edit.ui"), self)
 		self.penButton = self.findChild(QPushButton, "pen_button")
@@ -49,10 +48,10 @@ class Editpage(QMainWindow):
 		self.viewFrame = self.findChild(QFrame, "view_frame")
 		self.chooseMethod = self.findChild(QComboBox, "choose_method")
 		self.chooseMethod.currentIndexChanged.connect(self.selectionChange)
-		
-		self.penButton.setProperty('selected',True)
+
+		self.penButton.setProperty('selected', True)
 		self.penButton.setStyle(self.penButton.style())
-		self.eraserButton.setProperty('selected',False)
+		self.eraserButton.setProperty('selected', False)
 		self.eraserButton.setStyle(self.penButton.style())
 
 		self.penButton.clicked.connect(self.penSelect)
@@ -61,11 +60,11 @@ class Editpage(QMainWindow):
 		self.minButton.clicked.connect(self.showMinimized)
 		self.maxButton.clicked.connect(self.maximize)
 
-		self.redMarker.setProperty('selected',True)
+		self.redMarker.setProperty('selected', True)
 		self.redMarker.setStyle(self.redMarker.style())
-		self.greenMarker.setProperty('selected',False)
+		self.greenMarker.setProperty('selected', False)
 		self.greenMarker.setStyle(self.greenMarker.style())
-		self.blueMarker.setProperty('selected',False)
+		self.blueMarker.setProperty('selected', False)
 		self.blueMarker.setStyle(self.blueMarker.style())
 
 		self.redMarker.clicked.connect(self.redSelect)
@@ -81,31 +80,26 @@ class Editpage(QMainWindow):
 		self.setAttribute(Qt.WA_TranslucentBackground)
 
 		self.scene = QGraphicsScene()
-		#print(type(self.markerWidthSlider))
-		self.imageView = Editor(self.scene, self.viewFrame, slider = self.markerWidthSlider)
-		
-		self.imageView.setSizePolicy(QSizePolicy(QSizePolicy.Expanding,QSizePolicy.Expanding))
-		# print(self.viewFrame.width(), self.viewFrame.height())
-		self.imageView.setGeometry(0,0,self.viewFrame.width(),self.viewFrame.height())
-		self.imageView.viewport().setFixedSize(self.viewFrame.width(),self.viewFrame.height())
-		
+
+		self.imageView = Editor(self.scene, self.viewFrame,
+		                        slider=self.markerWidthSlider)
 		self.imageView.setPhoto(QPixmap(self.image_path))
 
-		# the layout makes sure imageview expands with the frame
 		vbox = QVBoxLayout()
 		vbox.addWidget(self.imageView)
 		self.viewFrame.setLayout(vbox)
-
-		self.addInpaintingMethod("Deepfill")  # adding a new inpainting method
-
-
-
-
+		
+		####--add new inpainting methods here--####
+		 
+		self.addInpaintingMethod("Deepfill") 
+	
+		####-----------------------------------####
+	
 	def moveAtCenter(self):
 		screen = QApplication.desktop().screenGeometry()
 		x = (screen.width() - self.width())//2
 		y = (screen.height() - self.height())//2
-		self.move(x,y)	
+		self.move(x, y)
 
 	def selectionChange(self):
 		self.imageView.setInpaintingMethod(self.chooseMethod.currentText())
@@ -113,13 +107,42 @@ class Editpage(QMainWindow):
 	def addInpaintingMethod(self, method):
 		if not isinstance(method, str):
 			raise Exception("method should be a string.")
-		self.chooseMethod.addItem(method) 
+		self.chooseMethod.addItem(method)
 
 	def maximize(self):
-		self.showMaximized()
-		self.imageView.setGeometry(0,0,self.viewFrame.width(),self.viewFrame.height())
-		self.imageView.viewport().setFixedSize(self.viewFrame.width(),self.viewFrame.height())
-		self.imageView.updateSceneRect(QRectF(0,0,self.viewFrame.width(),self.viewFrame.height()))
+		if self.isMaximized():
+			self.showNormal() 
+		else:
+			self.showMaximized()
+	
+	def mousePressEvent(self, event):
+		if event.button() == Qt.LeftButton:
+			self.offset = event.pos()
+		else:
+			super().mousePressEvent(event)
+
+	def mouseMoveEvent(self, event):
+		if self.offset is not None and event.buttons() == Qt.LeftButton:
+			self.move(self.pos() + event.pos() - self.offset)
+		else:
+			super().mouseMoveEvent(event)
+
+	def mouseReleaseEvent(self, event):
+		self.offset = None
+		super().mouseReleaseEvent(event)	
+	
+	def updateView(self):
+		scene = self.imageView.scene()
+		r = scene.sceneRect()
+		self.imageView.fitInView(r, Qt.KeepAspectRatio)
+	
+	def resizeEvent(self, event):
+		self.updateView()
+		
+	def showEvent(self, event):
+		if not event.spontaneous():
+			self.updateView()
+
 		
 	def redSelect(self):
 		self.redMarker.setProperty('selected',True)
@@ -187,18 +210,3 @@ if __name__ == "__main__":
     app.exec()
 		
 
-
-
-'''
-		isTest = widget.property(‘Test’)
-
-		buttonReply = QMessageBox.question(self, 'test message', "Do you like PyQt5?", QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
-		if buttonReply == QMessageBox.Yes:
-			print("Yes")
-		else:
-			print("No")			
-			
-		#fileName, _ = QFileDialog.getOpenFileName(None, "Open image file...")
-		#editpage = Editpage(fileName)
-
-'''

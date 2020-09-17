@@ -9,7 +9,6 @@ import os
 def resource_path(relative_path):
     """ Get absolute path to resource, works for dev and for PyInstaller """
     try:
-        # PyInstaller creates a temp folder and stores path in _MEIPASS
         base_path = sys._MEIPASS
     except Exception:
         base_path = os.path.abspath(".")
@@ -69,11 +68,6 @@ class Homepage(QMainWindow):
 			self.editpage.show()
 		except:
 			return
-		# print(image_path)
-
-		#self.editpage.showFullScreen()
-		#self.editpage.showMaximized()
-		
 
 	
 if __name__ == "__main__":
@@ -83,26 +77,3 @@ if __name__ == "__main__":
     app.exec()
 		
 
-
-
-'''
-	def _mousePressEvent(self, event):
-		self.offset = event.pos()
-
-	def _mouseMoveEvent(self, event):
-		x = event.globalX()
-		y = event.globalY()
-		x_w = self.offset.x()
-		y_w = self.offset.y()
-		self.move(x - x_w, y - y_w)
-
-
-		buttonReply = QMessageBox.question(self, 'test message', "Do you like PyQt5?", QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
-		if buttonReply == QMessageBox.Yes:
-			print("Yes")
-		else:
-			print("No")			
-		#fileName, _ = QFileDialog.getOpenFileName(None, "Open image file...")
-		#editpage = Editpage(fileName)
-
-'''

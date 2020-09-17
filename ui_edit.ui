@@ -110,9 +110,12 @@ font-family : &quot;Source Serif Pro SemiBold&quot;;
           <bool>true</bool>
          </property>
          <property name="styleSheet">
-          <string notr="true">QScrollBar{
+          <string notr="true">
+QScrollBar{
 background: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(85, 93, 227, 255), stop:1 rgba(147, 200, 255, 255));
-}</string>
+}
+
+</string>
          </property>
          <property name="frameShape">
           <enum>QFrame::NoFrame</enum>
@@ -264,10 +267,10 @@ font: 63 12pt &quot;Fira Code SemiBold&quot;;</string>
          </property>
          <property name="font">
           <font>
-           <family>Arial Rounded MT Bold</family>
-           <pointsize>12</pointsize>
-           <weight>50</weight>
-           <bold>false</bold>
+           <family>Droid Sans Fallback</family>
+           <pointsize>10</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
           </font>
          </property>
          <property name="layoutDirection">
@@ -290,7 +293,7 @@ background-color:rgba(204, 0, 0, 55)
 </string>
          </property>
          <property name="text">
-          <string>x</string>
+          <string>X</string>
          </property>
         </widget>
        </item>
@@ -604,7 +607,7 @@ background-color:rgba(255, 191, 0, 55);
 </string>
          </property>
          <property name="text">
-          <string>+</string>
+          <string>¤</string>
          </property>
         </widget>
        </item>

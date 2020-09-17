@@ -17,25 +17,24 @@ class Editor(QtWidgets.QGraphicsView):
             self._scene = scene
         else:
             self._scene = QtWidgets.QGraphicsScene(self)
+        
         self._photo = QtWidgets.QGraphicsPixmapItem()
         self._scene.addItem(self._photo)
         self.setScene(self._scene)
+        
         self.setTransformationAnchor(QtWidgets.QGraphicsView.AnchorUnderMouse)
         self.setResizeAnchor(QtWidgets.QGraphicsView.AnchorUnderMouse)
-        self.setSizePolicy(QSizePolicy(QSizePolicy.Expanding,QSizePolicy.Expanding)) 
         self.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAsNeeded)
         self.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAsNeeded)
-        #self.setBackgroundBrush(QtGui.QBrush(QtGui.QColor(30, 30, 30)))
         self.setFrameShape(QtWidgets.QFrame.NoFrame)
 
         self.drawMode = True
         self.drawing = False
         self.brushColor = "red"
-        #print(type(slider))
         self.brushSlider = slider
         self.lastPoint = QPoint()
         self.color_index = {"red":0, "green":1, "blue":2}
-        #mask
+
         self._method = "Telea"
         self._mask = None
         self._current_image = None
@@ -55,7 +54,7 @@ class Editor(QtWidgets.QGraphicsView):
     def hasPhoto(self):
         return not self._empty
 
-    def fitInView(self, scale=True):
+    def fit(self, scale=True):
         rect = QtCore.QRectF(self._photo.pixmap().rect())
         if not rect.isNull():
             self.setSceneRect(rect)
@@ -63,14 +62,12 @@ class Editor(QtWidgets.QGraphicsView):
                 unity = self.transform().mapRect(QtCore.QRectF(0, 0, 1, 1))
                 self.scale(1 / unity.width(), 1 / unity.height())
                 viewrect = self.viewport().rect()
-                #print("viewrect:",viewrect.getCoords())
                 scenerect = self.transform().mapRect(rect)
-                #print("scenerect:",scenerect.getCoords())
                 factor = min(viewrect.width() / scenerect.width(),
                              viewrect.height() / scenerect.height())
-                #print(factor)
                 self.scale(factor, factor)
             self._zoom = 0
+
 
     def setMask(self):
         self._mask = QImage(self._photo.pixmap().size(), QImage.Format_RGB32)
@@ -89,9 +86,9 @@ class Editor(QtWidgets.QGraphicsView):
         else:
             self._empty = True
             self.setDragMode(QtWidgets.QGraphicsView.NoDrag)
-            self._photo.setPixmap(QtGui.QPixmap())     
+            self._photo.setPixmap(QtGui.QPixmap())  
         self.setMask()
-        self.fitInView()
+
 
     def wheelEvent(self, event):
 
@@ -105,10 +102,11 @@ class Editor(QtWidgets.QGraphicsView):
             if self._zoom > 0:
                 self.scale(factor, factor)
             elif self._zoom == 0:
-                self.fitInView()
+                self.fit()
             else:
                 self._zoom = 0
         super(Editor, self).wheelEvent(event)            
+    
     
     def mouseMoveEvent(self, event):
 
@@ -127,7 +125,6 @@ class Editor(QtWidgets.QGraphicsView):
             painter.drawLine(self.lastPoint, self.mapToScene(event.pos()))
             painter.end()
             self.lastPoint = self.mapToScene(event.pos())
-            #img = rgb_view(self._photo.pixmap().toImage())
             img = np.array(self._current_image, dtype = np.float32)
             mask = rgb_view(self._mask)
             channel = self.color_index[self.brushColor]
@@ -146,6 +143,7 @@ class Editor(QtWidgets.QGraphicsView):
             self.drawing = True
             self.lastPoint = self.mapToScene(event.pos())
 
+
     def mouseReleaseEvent(self, event):
 
         if self.drawMode:
@@ -153,12 +151,11 @@ class Editor(QtWidgets.QGraphicsView):
                 self.drawing = False
         super(Editor, self).mouseReleaseEvent(event)    
 
+
     def inpaint(self):
 
-        img = np.array(self._current_image) 
-        # cv2.imwrite("unmarked.jpg",self._unmarkedImage)                     
+        img = np.array(self._current_image)              
         mask = rgb_view(self._mask)
-        # cv2.imwrite("mask.jpg",mask)
 
         if self._method == "Navier-Stokes":
             output_rgb = backend.inpaint_cv2(img, mask,method="ns")
@@ -166,9 +163,11 @@ class Editor(QtWidgets.QGraphicsView):
         elif self._method == "Telea":
             output_rgb = backend.inpaint_cv2(img, mask,method="telea") 
 
-        elif self._method == "Deepfill":
-            output_rgb = backend.inpaint_deepfill(img, mask)
-
+        elif self._method == "Deepfill":                        
+            output_rgb = backend.inpaint_deepfill(img, mask)        
+        
+        # add calls to your inpainting methods here
+        
         else:
             raise Exception("this inpainting method is not recognized!")
 
@@ -178,9 +177,10 @@ class Editor(QtWidgets.QGraphicsView):
         self._current_image = output_rgb
         self._photo.setPixmap(QPixmap(output))
 
+
     def save(self):
         try:
-            image_path, _ = QFileDialog.getSaveFileName()  #(self, caption="Save image file...")  
+            image_path, _ = QFileDialog.getSaveFileName() 
             img = self._photo.pixmap().toImage()
             if not image_path.endswith(".png"):
                 image_path += ".png"
@@ -194,15 +194,16 @@ class Editor(QtWidgets.QGraphicsView):
         self.setMask()
         self._current_image = rgb_view(self._unmarkedImage.toImage())      
 
+
 class Window(QtWidgets.QWidget):
     def __init__(self):
         super(Window, self).__init__()
         self.viewer = Editor(self)
-        # 'Load image' button
+
         self.btnLoad = QtWidgets.QToolButton(self)
         self.btnLoad.setText('Load image')
         self.btnLoad.clicked.connect(self.loadImage)
-        # Arrange layout
+
         VBlayout = QtWidgets.QVBoxLayout(self)
         VBlayout.addWidget(self.viewer)
         HBlayout = QtWidgets.QHBoxLayout()
@@ -223,46 +224,3 @@ if __name__ == '__main__':
     sys.exit(app.exec_())
 
 
-
-#----------------------Trash-----------------
-
-    # def QImageToArray(self, qimage):
-    #     size = qimage.size()         
-    #     h = size.width()
-    #     w = size.height()          
-    #     byte_str = qimage.bits().tobytes()
-    #     img = np.frombuffer(byte_str, dtype=np.uint8).reshape((w,h,4))     
-    #     return img    
-
-    # def QPixmapToArray(self, pixmap):
-    #     size = pixmap.size()         
-    #     h = size.width()
-    #     w = size.height()          
-    #     qimg = pixmap.toImage()       
-    #     byte_str = qimg.bits().tobytes()
-    #     img = np.frombuffer(byte_str, dtype=np.uint8).reshape((w,h,4))     
-    #     return img
-
-    # def ArrayToQPixmap(self, img):
-    #     h,w = img.shape
-    #     return QPixmap(QImage(img.data, h, w, 3*h, QImage.Format_RGB888))  
-
-    # def ArrayToQImage(self, img):
-    #     h,w = img.shape
-    #     return QImage(img.data, h, w, 3*h, QImage.Format_RGB888)    
-    #result = originalImage.copy() result[mask!=0] = (0,0,255)
-
-                # pixmap = self._photo.pixmap()    
-                # painter = QPainter(pixmap)
-                # if not painter.isActive():
-                #     painter.begin(self)
-                # painter.setRenderHint(QPainter.Antialiasing, True)
-                # painter.setPen(QPen(self.brushColor, self.brushSize, Qt.SolidLine, Qt.RoundCap, Qt.RoundJoin))
-                # painter.drawLine(self.lastPoint, self.mapToScene(event.pos()))
-                # painter.end()
-
-                # ind = (mask[:,:,channel]!=0)
-                # img[:,:,channel][ind] = 0
-                # img[:,:,channel][ind] = mask[:,:,channel][ind]
-
-    #img = rgb_view(self._photo.pixmap().toImage())
