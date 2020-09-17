@@ -166,8 +166,10 @@ class Editor(QtWidgets.QGraphicsView):
         elif self._method == "Deepfill":                        
             output_rgb = backend.inpaint_deepfill(img, mask)        
         
-        # add calls to your inpainting methods here
-        
+        #############################################
+        # add calls to your inpainting methods here #
+        #############################################
+
         else:
             raise Exception("this inpainting method is not recognized!")
 
