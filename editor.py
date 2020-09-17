@@ -131,7 +131,7 @@ class Editor(QtWidgets.QGraphicsView):
             ind = np.all(mask != [0,0,0], axis=-1)
             color = np.array([50,50,50], dtype = np.float32)
             color[channel] = 250
-            img[ind] = img[ind]*0.40 + color*0.60
+            img[ind] = img[ind]*0.45 + color*0.55
             self._photo.setPixmap(QPixmap(array2qimage(img))) #
 
         super(Editor, self).mouseMoveEvent(event)        
