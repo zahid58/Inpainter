@@ -25,6 +25,7 @@ class Homepage(QMainWindow):
 		self.addImageButton = self.findChild(QPushButton, "add_image_button")
 		self.titleBar = self.findChild(QFrame, "title_bar")
 		self.previewImage = self.findChild(QLabel, "preview_image")
+		self.offset = None
 
 		self.minButton.clicked.connect(self.showMinimized)
 		self.closeButton.clicked.connect(self.close)

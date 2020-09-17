@@ -47,6 +47,7 @@ class Editpage(QMainWindow):
 		self.mainFrame = self.findChild(QFrame, "main_frame")
 		self.viewFrame = self.findChild(QFrame, "view_frame")
 		self.chooseMethod = self.findChild(QComboBox, "choose_method")
+		self.offset = None
 		self.chooseMethod.currentIndexChanged.connect(self.selectionChange)
 
 		self.penButton.setProperty('selected', True)
