@@ -81,10 +81,6 @@ def inpaint_deepfill(image, mask):
 
 
 
-### Standalone Executable
-You will get the application in just one exectuable file (.exe) in the following drive link.
-https://drive.google.com/file/d/1NPuEw8uwrv7UNaUebsP2duINatyV-HKx/view?usp=sharing
-
 ### Contribute
 Feel free to fork the project and contribute. You can incorporate recent deep learning methods, make the GUI more easy to use, include relevant photo editing features. 
 
